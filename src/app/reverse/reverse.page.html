@@ -1,0 +1,66 @@
+<div class=" p-0 reversa-page" >
+
+  <div class="reversa-header sticky-top">
+    <div class="d-flex align-items-center justify-content-between">
+      <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backHome()">
+        <i class="bi bi-arrow-left-circle me-2"></i>
+      </button>
+
+      <div class="flex-grow-1 text-center">
+        <h3 class="m-0 fw-bold">Gestão de Reversa</h3>
+     </div>
+
+      <div style="width:72px"><!-- spacer para balancear --></div>
+    </div>
+  </div>
+  <div class="reversa-body">
+  <div class="reversa-container">
+    <div class="alert alert-info" role="alert" *ngIf="documents && documents.length === 0">
+      Nenhum pedido para tratar
+    </div>
+
+    <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-3" *ngIf="documents && documents.length">
+      <div class="col d-flex" *ngFor="let d of documents; let i = index">
+        <!-- Card clicável -->
+        <a class="reversa-card w-100"
+           [routerLink]="'/reverse/docnum/' + d.doc"
+           [routerDirection]="'root'">
+
+          <!-- faixa de destaque à esquerda + conteúdo -->
+          <div class="reversa-card__inner">
+            <div class="d-flex align-items-start">
+              <div class="reversa-card__icon me-3">
+                <i class="bi bi-box-seam"></i>
+              </div>
+
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-start justify-content-between">
+                  <h5 class="mb-1 fw-bold">Pedido #{{ d.doc }}</h5>
+                  <i class="bi bi-chevron-right chevron"></i>
+                </div>
+
+                <div class="text-muted small">
+                  <span class="badge-tag">
+                    <i class="bi bi-list-ul me-1"></i> Itens: {{ d.itens }}
+                  </span>
+                </div>
+
+                <!-- linha separadora sutil -->
+                <div class="line my-2"></div>
+
+                <!-- espaço para mais infos, se quiser no futuro -->
+                <div class="meta small text-secondary">
+                  Clique para ver detalhes e continuar a reversa
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="5000" cssClass="toast-custom-class"
+             (didDismiss)="setOpen(false)">
+  </ion-toast>
+</div>

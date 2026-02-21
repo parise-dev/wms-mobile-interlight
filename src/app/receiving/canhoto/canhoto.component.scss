@@ -1,0 +1,1024 @@
+/* Layout geral */
+
+
+.page-title {
+  font-size: 1.4rem;
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Filtro */
+.filter-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.filter-group {
+  flex: 1 1 180px;
+}
+
+.filter-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.filter-input {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #d7dadf;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px rgba(145, 152, 163, 0.25);
+}
+
+.filter-hint {
+  margin-top: 6px;
+  font-size: 0.76rem;
+  color: #e5e8ee;
+}
+
+/* Alerts (usar se tiver bootstrap, se não tiver, mantém estilo básico) */
+.alert {
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.alert-info {
+  background: #e0f2fe;
+  border: 1px solid #bae6fd;
+  color: #0369a1;
+}
+
+.alert-danger {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+.alert-success {
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+}
+
+/* Botões básicos (caso não use Bootstrap) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+
+
+
+
+.btn-outline-primary {
+  background: #ffffff;
+  border-color: black;
+  color: black;
+}
+
+
+.btn-outline-secondary {
+  background: #ffffff;
+  border-color: #9ca3af;
+  color: #4b5563;
+}
+
+.btn-outline-secondary:hover {
+  background: #f9fafb;
+}
+
+.btn-light {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #374151;
+}
+
+/* Seção de lista */
+.list-section {
+  margin-top: 4px;
+}
+
+.invoice-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* Cards de nota */
+.invoice-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+}
+
+.invoice-card:hover {
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  border-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.invoice-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.docnum-pill,
+.serial-pill {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.docnum-pill {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.serial-pill {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.invoice-card-body {
+  margin-bottom: 8px;
+}
+
+.client-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.client-code {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.invoice-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Estado vazio */
+.empty-state {
+  text-align: center;
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin-top: 16px;
+}
+
+/* MODAL */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.modal-container {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+}
+
+/* Modal em mobile: quase fullscreen */
+@media (max-width: 640px) {
+  .modal-container {
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+}
+
+/* Cabeçalho modal */
+.modal-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.modal-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.modal-close {
+  border: none;
+  background: transparent;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+/* Corpo modal */
+.modal-body {
+  padding: 10px 14px;
+  overflow-y: auto;
+}
+
+/* Blocos internos */
+.section-block {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  background: #ffffff;
+}
+
+.section-title {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.section-item .label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.section-item .value {
+  font-size: 0.85rem;
+  color: #111827;
+}
+
+.section-item .value.strong {
+  font-weight: 600;
+}
+
+/* Em telas maiores, duas colunas */
+@media (min-width: 640px) {
+  .section-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Campos */
+.field-block {
+  margin-bottom: 8px;
+}
+
+.field-label {
+  font-size: 0.78rem;
+  color: #4b5563;
+  margin-bottom: 4px;
+}
+
+.field-input {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.18);
+}
+
+.field-input.invalid {
+  border-color: #dc2626;
+}
+
+.field-input.valid {
+  border-color: #16a34a;
+}
+
+.field-helper {
+  margin-top: 2px;
+  font-size: 0.75rem;
+  color: #b91c1c;
+}
+
+.field-helper.success {
+  color: #15803d;
+}
+
+/* Câmera */
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.section-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.section-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.camera-box {
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px dashed #d1d5db;
+  padding: 8px;
+  background: #f9fafb;
+}
+
+.video-preview {
+  width: 100%;
+  max-height: 260px;
+  background: #111827;
+  border-radius: 6px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+/* Foto */
+.photo-preview-box {
+  margin-top: 10px;
+}
+
+.photo-preview-img {
+  width: 100%;
+  max-height: 260px;
+  border-radius: 8px;
+  object-fit: contain;
+  border: 1px solid #e5e7eb;
+}
+
+/* Rodapé modal */
+.modal-footer {
+  border-top: 1px solid #e5e7eb;
+  padding: 8px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* Em mobile: botões em coluna */
+@media (max-width: 640px) {
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
+}
+
+/* Spinner simples */
+.spinner.sm {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid rgba(148, 163, 184, 0.6);
+  border-top-color: #2563eb;
+  margin-right: 6px;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsividade da grid de cards */
+@media (min-width: 768px) {
+  .invoice-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .invoice-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ===== LISTAGEM ===== */
+
+.list-section {
+  margin-top: 16px;
+}
+
+/* Grid responsivo */
+.invoice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* Card */
+.invoice-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.invoice-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Header do card */
+.invoice-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* Pills */
+.docnum-pill,
+.serial-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.docnum-pill {
+  background: #eef2ff;
+  color: #1e3a8a;
+}
+
+.serial-pill {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+/* Corpo */
+.invoice-card-body {
+  flex: 1;
+}
+
+.client-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.client-code {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Rodapé */
+.invoice-card-footer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Empty state */
+.empty-state {
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ===== MOBILE AJUSTES FINOS ===== */
+@media (max-width: 480px) {
+  .invoice-card {
+    padding: 10px;
+  }
+
+  .client-name {
+    font-size: 13px;
+  }
+
+  .invoice-card-footer {
+    justify-content: stretch;
+  }
+
+  .invoice-card-footer button {
+    width: 100%;
+  }
+}
+
+/* Se sua tela usa flex/colunas, isso é CRUCIAL para permitir scroll interno */
+.page-wrapper,
+.page-content,
+.card,
+.card-body,
+.list-section {
+  min-height: 0; /* permite o filho ter overflow com scroll */
+}
+
+/* Container que vai rolar */
+.list-section {
+  flex: 1;              /* ocupa o espaço restante quando o layout é flex */
+  overflow-y: auto;     /* ativa scroll vertical */
+  overflow-x: hidden;
+  padding-right: 6px;   /* evita “cortar” o conteúdo por causa da scrollbar */
+}
+
+/* Define um limite de altura quando NÃO estiver em um layout flex */
+.list-section {
+  max-height: calc(100vh - 240px); /* ajuste esse valor conforme seu header/filtros */
+}
+
+/* Grid continua normal */
+.invoice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* Backdrop ocupa a tela e centraliza */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;              /* respiro no mobile */
+  background: rgba(0,0,0,.45);
+}
+
+/* Container vira "janela" responsiva */
+.modal-container {
+  width: min(920px, 100%);    /* desktop até 920px, mobile 100% */
+  max-height: calc(100vh - 32px);
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;     /* header / body / footer empilhados */
+  overflow: hidden;           /* impede o body vazar */
+  min-height: 0;              /* CRUCIAL p/ scroll interno funcionar */
+}
+
+/* Header e footer fixos, body rola */
+.modal-header,
+.modal-footer {
+  flex: 0 0 auto;
+}
+
+/* Corpo com rolagem */
+.modal-body {
+  flex: 1 1 auto;
+  min-height: 0;              /* CRUCIAL p/ scroll em flex */
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px;              /* mantém seu visual */
+}
+
+/* Footer sempre visível e responsivo */
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 12px 14px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Botões no mobile ficam em coluna (mais clicável) */
+@media (max-width: 520px) {
+  .modal-backdrop {
+    padding: 10px;
+    align-items: flex-end; /* modal "sobe" do rodapé, estilo mobile */
+  }
+
+  .modal-container {
+    width: 100%;
+    max-height: calc(100vh - 20px);
+    border-radius: 14px 14px 0 0; /* feel mobile */
+  }
+
+  .modal-footer {
+    justify-content: stretch;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
+}
+
+/* Preview da foto nunca estoura */
+.photo-preview-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+/* =========================
+   MODAL BACKDROP
+========================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  z-index: 1050;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px;
+}
+
+/* =========================
+   MODAL CONTAINER
+========================= */
+
+.modal-container {
+  background: #ffffff;
+  width: min(760px, 100%);
+  max-height: calc(100vh - 32px);
+
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden; /* impede body de vazar */
+  min-height: 0;    /* ESSENCIAL para scroll funcionar */
+}
+
+/* =========================
+   MOBILE (BOTTOM SHEET)
+========================= */
+
+@media (max-width: 640px) {
+  .modal-backdrop {
+    align-items: flex-end;
+    padding: 8px;
+  }
+
+  .modal-container {
+    width: 100%;
+    max-height: calc(100vh - 8px);
+    border-radius: 14px 14px 0 0;
+  }
+}
+
+/* =========================
+   MODAL HEADER
+========================= */
+
+.modal-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  flex: 0 0 auto; /* não rola */
+}
+
+.modal-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+/* =========================
+   MODAL BODY (SCROLL AQUI)
+========================= */
+
+.modal-body {
+  flex: 1 1 auto;
+  min-height: 0;          /* ESSENCIAL */
+  overflow-y: auto;       /* SCROLL */
+  overflow-x: hidden;
+
+  padding: 12px 14px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* =========================
+   MODAL FOOTER (SEMPRE VISÍVEL)
+========================= */
+
+.modal-footer {
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+
+  padding: 10px 14px;
+
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+
+  flex: 0 0 auto; /* não rola */
+}
+
+/* Botões no mobile ocupam largura total */
+@media (max-width: 640px) {
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
+}
+
+/* Mobile: deixa um respiro extra embaixo (safe area) */
+@media (max-width: 640px) {
+  .modal-container {
+    /* já ocupa a tela: ok */
+    max-height: 100vh;
+  }
+
+  .modal-footer {
+    /* espaço para barra de gestos/notch + respiro */
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .modal-body {
+    /* evita que o conteúdo encoste no footer */
+    padding-bottom: 16px;
+  }
+}
+
+.modal-footer {
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+}
+
+/* =========================
+   HEADER AZUL (HOME STYLE)
+========================= */
+
+.blue-header {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+
+/* Texto do header */
+.blue-header .page-title {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.blue-header .page-subtitle {
+  color: #dbeafe;
+  font-size: 0.85rem;
+  margin: 2px 0 0;
+}
+
+/* Agrupamento texto */
+.header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   BOTÃO VOLTAR
+========================= */
+
+.back-button {
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateX(-1px);
+}
+
+/* Mobile: header mais compacto */
+@media (max-width: 480px) {
+  .blue-header {
+    padding: 12px 14px;
+  }
+
+  .blue-header .page-title {
+    font-size: 1.1rem;
+  }
+
+  .blue-header .page-subtitle {
+    font-size: 0.8rem;
+  }
+}
+
+.reversa-header {
+    background-color: black;
+  color: #fff;
+  padding: 1.25rem 1rem; /* header maior */
+
+  .bi-arrow-left-circle { font-size: 1.5rem; }
+  h3 { letter-spacing: .2px; }
+  .header-back { font-weight: 600; }
+}
+
+/* =========================
+   MODAL (UNICO BLOCO)
+========================= */
+
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  z-index: 9999; /* acima do sticky header */
+  background: rgba(15, 23, 42, 0.45);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px;
+}
+
+/* Janela do modal */
+.modal-container{
+  width: min(760px, 100%);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+
+  /* o segredo do mobile: usar dvh e flex */
+  max-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0; /* essencial */
+}
+
+.modal-header,
+.modal-footer{
+  flex: 0 0 auto;
+}
+
+.modal-body{
+  flex: 1 1 auto;
+  min-height: 0;           /* essencial */
+  overflow-y: auto;        /* scroll aqui */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  padding: 12px 14px;
+}
+
+/* Footer sempre visível + safe area */
+.modal-footer{
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Mobile: modal vira "quase fullscreen" (sem sumir) */
+@media (max-width: 640px){
+  .modal-backdrop{
+    padding: 0;            /* ocupa tudo */
+    align-items: stretch;  /* estica */
+    justify-content: stretch;
+  }
+
+  .modal-container{
+    width: 100%;
+    height: 100dvh;        /* não some no mobile */
+    max-height: 100dvh;
+    border-radius: 0;      /* fullscreen */
+  }
+
+  .modal-footer{
+    flex-direction: column;
+    justify-content: stretch;
+  }
+
+  .modal-footer .btn{
+    width: 100%;
+  }
+}

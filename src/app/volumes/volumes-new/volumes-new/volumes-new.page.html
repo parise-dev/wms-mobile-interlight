@@ -1,0 +1,93 @@
+ <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="color: white"> Gerando volume... </p>
+  </ngx-spinner>
+<ion-content>
+  <ion-grid style="background-color: black; color: #fff;" class="pt-3 p-0 pb-3">
+    <ion-row class="ps-2 pt-4 pe-0go mb-3">
+
+      <h5>
+        <i class="bi bi-arrow-left-circle ms-2 me-2 text-36" style="font-size: 24px;"  [routerLink]="'/pick-item/'+ this.ids +'/'+ this.userid" [routerDirection]="'root'"></i>
+        NOVO VOLUME
+      </h5>
+    </ion-row>
+    <div class="row ps-2 pe-2">
+      <div class="btn-group" role="group" aria-label="Basic example">
+       </div>
+    </div>
+
+
+  </ion-grid>
+  <h6 class="m-2 mt-3 text-muted">Conteúdo do volume</h6>
+  <div class="m-2 border-top"></div>
+  <div class="alert alert-warning" role="alert" *ngIf="newPackings.length == 0">
+    Nenhum item adicionado
+  </div>
+  <div *ngIf="newPackings.length > 0">
+    <div  class="row m-2" *ngFor="let n of newPackings; let i = index">
+      <div class="alert alert-primary" role="alert">
+        <p class="text-12 mb-0" style="font-size: 12px;" >
+          {{n.dscription}}
+          <button type="button" class="btn-close float-end" aria-label="Close" (click)="removeItem(i)"></button>
+        </p>
+        <p class="text-12 m-0" style="font-size: 12px;">Peça(s): {{n.pecas}} &nbsp;&nbsp;&nbsp; Peso: {{n.weight}}</p>
+      </div>  
+    </div>
+  </div>
+  
+  <h6 class="m-2 mt-3">Disponíveis para adicionar</h6>
+  <div class="m-2 border-top mb-4"></div>
+  <div class="alert alert-info mt-2" role="alert" *ngIf="checkList(disponiveis)">
+    Nenhum item para adicionar
+  </div>
+<div  *ngFor="let doc of disponiveis; let i = index">
+  
+  <div class="card borderx m-2" *ngIf="doc.disponivel > 0">
+    <div class="row" >
+      <h6 class="ms-2 mt-3 mb-0">{{doc.dscription}}</h6> <!--{{ua.address}}-->
+      <p class="text-muted m-2" style="font-size: 12px;">Lote: {{doc.batch}}
+        <small class="float-end me-4" style="font-size: 12px;">Peças Disponíveis: {{doc.disponivel}}</small>
+      </p>
+    </div>
+      <div class=" m-1 border-top"></div>
+      <div class="row m-2">
+      <div class="col-12 p-0 pe-1">
+          <label class="mb-2 p-0 m-0 text-12">Peças</label>
+          <input class="form-control form-control-sm text-12"  [name]="'pecas' + i"  type="number" [(ngModel)]="disponiveis[i].pecas" />
+        </div>
+        <button class="btn btn-primary rounded mt-3 mb-1" (click)="adicionarAoVolume(i)"> CONFIRMAR</button>
+      </div>
+  </div>
+</div>
+<div class="card p-4"> 
+  <div class="row p-2" style="background-color: #d3d3d3">
+    <label for="textAreaLocal" class="m-2">Tipo de Embalagem</label>
+    <select id="textAreaLocal" class="form-control form-control-sm" name="package_Name" [(ngModel)]="addNEwPacking.package_Name">
+      <option value="PC">PEÇA</option>
+      <option value="CX">CAIXA</option>
+      <option value="AM">AMARRADO</option>
+      <option value="ES">ESTRADO</option>
+    </select>
+  </div>
+</div>
+<div class="card p-4"> 
+  <div class="row p-2" style="background-color: #d3d3d3">
+    <label for="textAreaLocal" class="m-2">Localização</label>
+    <textarea id="textAreaLocal" class="form-control form-control-sm" row="4" name="destiny" [(ngModel)]="addNEwPacking.destiny"></textarea>
+  </div>
+</div>
+<div class="card p-4"> 
+  <div class="row p-2" style="background-color: #d3d3d3">
+    <label for="textAreaLocal" class="m-2">Peso Embalagem</label>
+    <input class="form-control form-control-sm text-12" name="weight" type="number" [(ngModel)]="addNEwPacking.weight"/>
+  </div>
+</div>
+</ion-content>
+<ion-footer>
+  <ion-button expand="block" (click)="addPacking()">CRIAR VOLUME</ion-button>
+</ion-footer>
+<ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="5000" cssClass="toast-custom-class"
+    (didDismiss)="setOpen(false)">
+  </ion-toast>
+
+
+  

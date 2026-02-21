@@ -1,0 +1,54 @@
+/* Mantém seu tema existente */
+.bg-elinox {
+  /* NÃO altero sua cor de fundo */
+  /* se quiser refinar tipografia: */
+  .header-title {
+    font-weight: 700;
+    letter-spacing: .2px;
+    font-size: clamp(18px, 2.2vw, 22px);
+  }
+}
+
+/* Linha de acento (opcional) */
+.elinox-accent { height: 2px; background: #F97316 }
+
+/* Cards mais “premium” */
+.elinox-card {
+  border: 0;
+  border-radius: 16px;
+  transition: transform .15s ease, box-shadow .15s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+
+  &:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.08); }
+}
+
+/* Truncar em 2 linhas para descrições longas */
+.text-truncate-2 {
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Footer fixo simples (sem Ionic) */
+.elinox-footer {
+  position: sticky; /* gruda no fim sem ficar sobre conteúdo em telas baixas */
+  bottom: 0;
+  background: #f7f9fb;
+  border-top: 1px solid #e7edf3;
+  z-index: 1020;
+}
+
+/* Ícones maiores em telas grandes, sem quebrar mobile */
+@media (min-width: 992px) {
+  .bg-elinox i.bi { font-size: 26px !important; }
+}
+
+/* Borda tracejada vermelha — você perguntou isso também */
+.border-dashed-red { border: 2px dashed #dc3545; border-radius: 8px; }
+.reversa-header {
+    background-color: black;
+  color: #fff;
+  padding: 1.25rem 1rem; /* header maior */
+
+  .bi-arrow-left-circle { font-size: 1.5rem; }
+  h3 { letter-spacing: .2px; }
+  .header-back { font-weight: 600; }
+}

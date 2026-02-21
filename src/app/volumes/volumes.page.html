@@ -1,0 +1,132 @@
+ <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="color: white"> Atualizando... </p>
+  </ngx-spinner>
+<ion-content class="bg bg-white p-0">
+  
+  <ion-grid style="background-color: #39B4E2; color: #fff;" class="pt-3 p-0 pb-3">
+    <ion-row class="ps-2 pt-4 pe-0go mb-3">
+
+      <h5>
+        <i class="bi bi-arrow-left-circle ms-1 me-1 text-24"  [routerLink]="'/pick-item/'+ id + '/'+ userid" [routerDirection]="'root'"></i>
+        VOLUMES
+        <i (click)="reload()" class="bi bi-arrow-clockwise ms-3 text-22 float-end"></i>
+      </h5>
+    </ion-row>
+    <div class="row ps-2 pe-2">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-primary ms-1" [routerLink]="'/volumes/volumes-new/'+id" [routerDirection]="'root'"> <i class="bi bi-plus-square-fill" ></i>&nbsp;
+          Adicionar</button>
+        <button type="button" class="btn btn-danger ms-1" (click)="cancelarVolume()"> <i class="bi bi-trash3"></i>&nbsp; Cancelar</button>
+      </div>
+    </div>
+
+
+  </ion-grid>
+  <div class="alert alert-primary ps-2 pe-2 mt-2 pt-3 pb-3" role="alert" *ngIf="false">
+    Nenhum volume criado
+  </div>
+
+  <ion-list [inset]="true" class="p-0 mb-2 ms-1 me-0" *ngFor="let v of volumes; let i = index">
+    <ol class="list-group">
+      <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start p-3">
+        <input type="checkbox" class="form-check-input" style="font-size: 24px;" [name]="'vol' + i" [(ngModel)]="volumes[i].selected"/>
+        <div class="ms-2 me-auto" (click)="openObsOrder(modalVolViewer, v.id, 'md')">
+          <div class="fw-bold" style="font-size: 20px;">{{formatName(v.id)}}</div>
+          Criado em 25/02/2025 por: {{v.username}}
+        </div>
+        <span class="badge bg-primary rounded-pill" *ngIf="v.status == 'EM PREPARAÇÃO'">{{v.status}}</span>
+        <span class="badge bg-danger rounded-pill" *ngIf="v.status == 'CANCELADO'">{{v.status}}</span>
+      </li>
+     
+    </ol>
+  </ion-list>
+</ion-content>
+  <ion-footer>
+    <ion-button expand="block" (click)="printer()">
+      IMPRIMIR ETIQUETA
+    </ion-button>
+  </ion-footer>
+  <!--<ion-list [inset]="true" class="p-0">
+    <p>Itens separados</p>
+    <div class="rounded bg bg-info">
+      <ion-item>
+        <ion-checkbox labelPlacement="end" (ionChange)="toggleInputs($event)">
+          <ion-label>TUBO RETANGULAR INOX 304 30 X 20 X 1,20MM DEC</ion-label>
+          <ion-label><strong>QTDE:</strong><span color="medium">1020</span>&nbsp; (KG)</ion-label>
+        </ion-checkbox>
+      </ion-item>
+      <ion-item *ngIf="showInputs">
+        <ion-input label="Quantidade:" labelPlacement="floating" type="number" placeholder="0"></ion-input>
+        <ion-input label="Volume:" labelPlacement="floating" type="number" placeholder="0"></ion-input>
+        <ion-button>Adicionar</ion-button>
+      </ion-item>
+    </div>
+  </ion-list>-->
+
+  <!--<div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="thead-light">
+        <tr>
+          <th>UN</th>
+          <th>Pedido</th>
+          <th>Qtde Conferida</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>KG</td>
+          <td>220</td>
+          <td>
+            <input class="form-control" type="number" />
+          </td>
+        </tr>
+        <tr>
+          <td>MT</td>
+          <td>70</td>
+          <td>
+            <input class="form-control" type="number" />
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>-->
+  <!--<ion-button expand="block">
+    Concluir Picking
+  </ion-button>
+</ion-content>-->
+
+<ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="5000" cssClass="toast-custom-class"
+    (didDismiss)="setOpen(false)">
+  </ion-toast>
+
+  <ng-template #modalVolViewer let-modal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+    <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">Itens no Volume</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+      <div class="modal-body">
+<div class="table-responsive">
+  <table class="table table-hover">
+    <tr class="table-striped">
+      <th>Cód</th>
+      <th>Descrição</th>
+      <th>Peças</th>
+    </tr>
+    <tbody>
+      <tr *ngFor="let v of volviewer">
+        <td>{{v.itemCode}}</td>
+        <td>{{v.description}}</td>
+        <td>{{v.pack}}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+</div>
+    </div>
+  </div>
+    </div>
+  </ng-template>

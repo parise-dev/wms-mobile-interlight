@@ -1,0 +1,158 @@
+<!--<div class="container p-0">
+    <ion-content class="m-0">
+        <ion-grid style="background-color: #39B4E2; color: #fff;" class="pt-3 p-0 pb-3">
+            <ion-row class=" ps-2 pt-4 pe-0 mb-3">
+
+                <h4>
+                    <i class="bi bi-arrow-left-circle ms-2 me-2 text-36" style="font-size: 24px;"
+                        (click)="backHome()"></i>
+                    Expedição Elinox
+                </h4>
+            </ion-row>
+            <div class="row ps-2 pe-2">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                </div>
+            </div>
+
+
+        </ion-grid>
+
+        <div class="border border-secondary ms-1 me-1 mt-3 bg bg-gray shadow">
+            <h6 class="m-3">Digite, bipe ou selecione código da viagem ou pedido:
+                <a class="text-danger float-end" (click)="clear()">limpar</a>
+            </h6>
+            <div class="m-2 mb-4">
+                <div class="input-group m-2 mb-4 me-3">
+                    <input type="text" #meuInput class="form-control me-2" placeholder="Número da viagem ou pedido" [(ngModel)]="volumeBip"
+                        aria-describedby="basic-addon2">
+                    <div class="input-group-append me-2">
+                        <button class="btn btn-outline-secondary" type="button" (click)="confirmeOk()">OK</button>
+                    </div>
+                </div>
+            </div>
+            <div class="m-2 mb-4">
+                <div class="input-group m-2 mb-4 me-3">
+                    <select class="form-control me-2" name="dataSelecionada" [(ngModel)]="dataSelecionada">
+                        <option *ngFor="let dia of ultimosCincoDias" [value]="dia.value">
+                            {{ dia.label }}
+                        </option>
+                    </select>
+                    <div class="input-group-append me-2">
+                        <button class="btn btn-outline-secondary" type="button" (click)="confirmeOk()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-2 mb-4">
+
+        </div>
+        <h6 class="m-2 mt-4 ms-3 mb-3">Viagens Disponíveis para expedir</h6>
+        <div class="alert alert-info mt-2 ms-2 me-2" role="alert" *ngIf="viagems.length == 0">
+            Nenhum item para conferir
+        </div>
+        <div *ngFor="let p of viagems; let i = index">
+
+            <div class="card borderx border-secondary shadow m-2 mb-4" [routerLink]="'receiving-item/' +  p.id" [routerDirection]="'root'">
+                <div class="row pe-2">
+                    <h5 class="ms-3 mt-3 mb-0 me-0 pe-2">{{p.name}}
+                        <span class="text-8  float-end ms-0 ps-2 me-4 rounded ps-2 pe-2 text-white" style="background-color: #39B4E2; font-size: 16px;">#VIAGEM {{p.id}}</span>
+                    </h5> --> <!--{{ua.address}}-->
+
+<!--  <p class="text-muted m-3" style="font-size: 14px;">Data Prog: {{p.createDate | date: 'dd/MM/yyyy'}}
+                        <small class="float-end me-4" style="font-size: 12px;">Por: {{p.id}}</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <ion-footer>
+        </ion-footer>
+
+    </ion-content>
+</div>-->
+
+<ion-content class="page">
+
+    <div class="reversa-header sticky-top">
+        <div class="d-flex align-items-center justify-content-between">
+            <!-- Voltar -->
+            <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backHome()">
+                <i class="bi bi-arrow-left-circle ms-1"></i>
+            </button>
+
+            <!-- Título central -->
+            <div class="flex-grow-1 text-center">
+                <h3 class="m-0 fw-bold">Expedição Interlight</h3>
+            </div>
+
+            <!-- Ação direita (refresh) -->
+            <button class="btn btn-link text-white p-0 d-flex align-items-center" aria-label="Atualizar">
+                <i class="bi bi-arrow-clockwise fs-4"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- CARD: FILTROS -->
+    <section class="card ms-2 me-2">
+        <div class="card-head">
+            <div class="card-title">Buscar viagem ou pedido</div>
+            <button class="link-danger" type="button" (click)="clear()">Limpar</button>
+        </div>
+
+        <div class="stack">
+            <!-- INPUT SCAN -->
+            <label class="field">
+                <span class="label">Digite ou bipe o código</span>
+                <div class="input-row">
+                    <input #meuInput class="input" type="text" inputmode="text" autocomplete="off"
+                        autocapitalize="characters" placeholder="Ex.: V12345 ou 117475" [(ngModel)]="volumeBip"
+                        (keyup.enter)="confirmeOk()" />
+                    <button class="btn" type="button" (click)="confirmeOk()">OK</button>
+                </div>
+                <small class="hint"></small>
+            </label>
+
+            <!-- DATE -->
+            <label class="field">
+                <span class="label">Data</span>
+                <div class="input-row">
+                    <select class="input" name="dataSelecionada" [(ngModel)]="dataSelecionada" (change)="confirmeOk()">
+                        <option *ngFor="let dia of ultimosCincoDias" [value]="dia.value">
+                            {{ dia.label }}
+                        </option>
+                    </select>
+                    <button class="btn btn-outline" type="button" (click)="confirmeOk()">Filtrar</button>
+                </div>
+            </label>
+        </div>
+    </section>
+
+    <!-- LISTA -->
+    <section class="list-wrap ms-2 me-2">
+        <div class="section-title ms-2">Viagens disponíveis para expedir</div>
+
+        <div class="empty" *ngIf="viagems.length === 0">
+            <i class="bi bi-inbox"></i>
+            <div>
+                <div class="empty-title">Nada por aqui</div>
+                <div class="empty-sub">Nenhum item para conferir com os filtros atuais.</div>
+            </div>
+        </div>
+
+        <a class="travel" *ngFor="let p of viagems; let i = index" [routerLink]="'receiving-item/' + p.id"
+            [routerDirection]="'root'">
+            <div class="travel-main">
+                <div class="travel-name">{{ p.name }}</div>
+                <div class="travel-meta">
+                    <span>Data prog: {{ p.createDate | date: 'dd/MM/yyyy' }}</span>
+                </div>
+            </div>
+
+            <div class="travel-right">
+                <span class="badge">#VIAGEM {{ p.id }}</span>
+                <i class="bi bi-chevron-right"></i>
+            </div>
+        </a>
+    </section>
+
+</ion-content>

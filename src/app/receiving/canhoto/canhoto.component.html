@@ -1,0 +1,241 @@
+<div class="page-wrapper">
+
+   <div class="reversa-header sticky-top">
+    <div class="d-flex align-items-center justify-content-between">
+       <i class="bi bi-arrow-left-circle ms-1 me-4 cursor-pointer"  (click)="backHome()"></i>
+
+      <div class="">
+        <h3 class="m-0 fw-bold">
+          
+           Baixa de entrega</h3>
+      </div>
+      <div class=""></div>
+
+    </div>
+  </div>
+  <!-- Header -->
+ 
+  <!--<header class="page-header">
+    <div>
+      <h2 class="page-title">Baixa de entrega</h2>
+      <p class="page-subtitle">
+        Informe a data para listar as notas de saída pendentes.
+      </p>
+    </div>
+  </header>-->
+
+  <!-- Filtro de data -->
+  <section class="filter-card">
+     <p class="page-subtitle pb-1">
+        Informe a data para listar as notas de saída pendentes.
+      </p>
+    <div class="filter-row">
+     
+      <div class="filter-group">
+        <label class="filter-label form-label">Data</label>
+        <input type="date" class="filter-input form-control" [(ngModel)]="selectedDate" />
+      </div>
+
+      <!-- 🔹 NOVO: campo de busca por nota -->
+      <div class="filter-group">
+        <label class="filter-label">Número da nota</label>
+        <input type="text" class="filter-input form-control" [(ngModel)]="searchDocNum" placeholder="Digite o número da nota" />
+      </div>
+
+      <button class="btn text-white " style="background-color: black;" (click)="loadInvoices()">
+        Buscar
+      </button>
+    </div>
+    <p class="filter-hint">
+      Use o filtro acima para carregar as notas do dia e, se necessário, localizar uma nota específica.
+    </p>
+  </section>
+
+
+  <!-- Mensagens globais -->
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando notas de entrega...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <!-- Lista de notas -->
+  <section class="list-section" *ngIf="!loading">
+    <ng-container *ngIf="invoices && invoices.length > 0; else noData">
+
+      <!-- Cards (mobile) / colunas (desktop) -->
+      <div class="invoice-grid">
+        <div class="invoice-card" *ngFor="let inv of filteredInvoices" (click)="openModal(inv)">
+          <div class="invoice-card-header">
+            <span class="docnum-pill">Doc {{ inv.docNum }}</span>
+            <span class="serial-pill">Serial {{ inv.serial }}</span>
+          </div>
+
+          <div class="invoice-card-body">
+            <div class="client-name">
+              {{ inv.cardName }}
+            </div>
+            <div class="client-code">
+              {{ inv.cardCode }}
+            </div>
+          </div>
+
+          <div class="invoice-card-footer">
+            <button type="button" class="btn btn-outline-primary btn-sm"
+              (click)="$event.stopPropagation(); openModal(inv)">
+              Baixar / Canhoto
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noData>
+      <div class="empty-state">
+        Nenhuma nota encontrada para a data informada.
+      </div>
+    </ng-template>
+  </section>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal-container" *ngIf="selectedInvoice">
+
+    <!-- Cabeçalho modal -->
+    <header class="modal-header">
+      <div class="modal-header-text">
+        <h3 class="modal-title">Baixa de entrega</h3>
+        <p class="modal-subtitle">
+          Doc {{ selectedInvoice.docNum }} · {{ selectedInvoice.cardName }}
+        </p>
+      </div>
+      <button class="modal-close" type="button" (click)="closeModal()">
+        &times;
+      </button>
+    </header>
+
+    <!-- Corpo modal -->
+    <main class="modal-body">
+
+      <!-- Dados da nota -->
+      <section class="section-block">
+        <h4 class="section-title">Dados da nota</h4>
+        <div class="section-grid">
+          <div class="section-item">
+            <div class="label">Cliente</div>
+            <div class="value">{{ selectedInvoice.cardCode }}</div>
+          </div>
+          <div class="section-item">
+            <div class="label">Nome</div>
+            <div class="value">{{ selectedInvoice.cardName }}</div>
+          </div>
+          <div class="section-item">
+            <div class="label">DocNum</div>
+            <div class="value strong">{{ selectedInvoice.docNum }}</div>
+          </div>
+          <div class="section-item">
+            <div class="label">Serial</div>
+            <div class="value">{{ selectedInvoice.serial }}</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chave NF-e -->
+      <section class="section-block">
+        <h4 class="section-title">Chave NF-e</h4>
+
+        <div class="field-block">
+          <label class="field-label">Chave original</label>
+          <input type="text" class="field-input" [value]="expectedKey" disabled />
+        </div>
+
+        <div class="field-block">
+          <label class="field-label">Chave bipada / digitada</label>
+          <input type="text" class="field-input" [(ngModel)]="scannedKey" [ngClass]="{
+              'invalid': scannedKey && !isKeyOk(),
+              'valid': scannedKey && isKeyOk()
+            }" placeholder="Bipar ou digitar a chave da nota" />
+          <div class="field-helper" *ngIf="scannedKey && !isKeyOk()">
+            Chave informada diferente da chave original.
+          </div>
+          <div class="field-helper success" *ngIf="scannedKey && isKeyOk()">
+            Chave conferida.
+          </div>
+        </div>
+      </section>
+
+      <!-- Câmera / Foto (novo, igual ao app de recebimento) -->
+      <section class="section-block">
+        <div class="section-header-row">
+          <div>
+            <h4 class="section-title">Foto do canhoto / nota fiscal</h4>
+            <p class="section-subtitle">
+              Use a câmera do dispositivo (ou selecione um arquivo) para registrar a entrega.
+            </p>
+          </div>
+          <div class="section-actions">
+            <!-- Botão único: abre câmera no celular / seleciona arquivo no PC -->
+            <button type="button" class="btn btn-light btn-sm" (click)="openPicker(fileInput)">
+              Capturar / Anexar foto
+            </button>
+          </div>
+        </div>
+
+        <!-- Input de arquivo escondido -->
+        <input #fileInput type="file" accept="image/*" capture="environment" style="display:none"
+          (change)="onFileSelected($event)" />
+
+        <!-- Preview da foto -->
+        <div *ngIf="capturedImage" class="photo-preview-box">
+          <label class="field-label">Foto selecionada</label>
+          <img [src]="capturedImage" alt="Foto selecionada" class="photo-preview-img" />
+          <div style="margin-top: 8px; display:flex; gap:8px;">
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="clearPhoto()">
+              Remover
+            </button>
+          </div>
+        </div>
+
+        <!-- Mensagem se ainda não tiver foto -->
+        <div *ngIf="!capturedImage" class="field-helper">
+          Nenhuma foto selecionada ainda.
+        </div>
+      </section>
+
+
+      <!-- Mensagens dentro do modal -->
+      <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success mt-2">
+        {{ successMessage }}
+      </div>
+    </main>
+
+    <!-- Rodapé modal -->
+    <footer class="modal-footer">
+      <button class="btn btn-outline-secondary" type="button" (click)="closeModal()">
+        Fechar
+      </button>
+
+      <button class="btn btn-outline-primary" type="button" (click)="salvarFoto()"
+        [disabled]="uploadPhotoLoading || !capturedImage">
+        <span *ngIf="uploadPhotoLoading" class="spinner sm"></span>
+        Salvar foto
+      </button>
+
+      <button class="btn btn-primary" type="button" (click)="baixarEntrega()" [disabled]="downExitLoading">
+        <span *ngIf="downExitLoading" class="spinner sm"></span>
+        Baixar entrega
+      </button>
+    </footer>
+  </div>
+</div>

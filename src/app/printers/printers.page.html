@@ -1,0 +1,45 @@
+<ion-content>
+  <ion-grid style="background-color: #39B4E2; color: #fff;" class="pt-3 p-0 pb-3">
+    <ion-row class="ps-2 pt-4 pe-0go mb-3">
+
+      <h5 (click)="backHome()">
+        <i class="bi bi-arrow-left-circle ms-2 me-2 text-36" style="font-size: 24px;"></i>
+        Selecionar Impressora
+      </h5>
+    </ion-row>
+    <div class="row ps-2 pe-2">
+      <div class="btn-group" role="group" aria-label="Basic example">
+      </div>
+    </div>
+
+    
+  </ion-grid>
+ 
+    <div class="card p-4 mt-3">
+      <label for="textAreaLocal" class="m-2">Impressoras ativas</label>
+      <select id="textAreaLocal" class="form-control form-control-sm" name="ipPrinters" [(ngModel)]="ipPrinters">
+        <option value="192.168.11.231">ELXETIQ-01</option>
+        <option value="192.168.11.232">ELXETIQ-02</option>
+        <option value="192.168.11.233">ELXETIQ-03</option>
+        <option value="192.168.11.234">ELXETIQ-04</option>
+        <option value="192.168.10.142">ELXETIQ-05</option>
+        <option value="192.168.11.235">ELXETIQ-06</option>
+        <option value="192.168.11.236">ELXETIQ-07</option>
+        <option value="192.168.10.145">ELXETIQ-08</option>
+        <option value="192.168.11.237">ELXETIQ-09</option>
+        <option value="192.168.11.240">ELXETIQ-10</option>
+        <option value="192.168.11.238">ELXETIQ-11</option>
+        <option value="192.168.11.239">ELXETIQ-12</option>
+        <option value="192.168.11.118">TI-HELDER</option>
+      </select>
+  </div>
+</ion-content>
+<ion-button expand="block" (click)="setImpressora()">Salvar Impressora</ion-button>
+
+<ion-toast
+[isOpen]="isToastOpen"
+[message]="messageToast"
+[duration]="5000"
+(didDismiss)="setOpen(false)"
+>
+</ion-toast>

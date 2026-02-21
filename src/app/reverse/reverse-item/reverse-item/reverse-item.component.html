@@ -1,0 +1,153 @@
+<div class="container-fluid p-0">
+  <div class="reversa-header sticky-top">
+    <div class="d-flex align-items-center justify-content-between">
+      <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backHome()">
+        <i class="bi bi-arrow-left-circle me-2"></i>
+      </button>
+
+      <div class="flex-grow-1 text-center">
+        <h3 class="m-0 fw-bold">VOLUME {{id2}}</h3>
+      </div>
+
+      <div style="width:72px"><!-- spacer para balancear --></div>
+    </div>
+  </div>
+
+  <!-- SUBHEADER (opcional) -->
+  <div class="elinox-accent"></div>
+
+  <!-- CONTEÚDO -->
+  <div class="container my-3">
+    <h6 class="mb-3">Itens pertencentes ao volume</h6>
+
+    <div class="alert alert-info" role="alert" *ngIf="reversePackItem && reversePackItem.length === 0">
+      Nenhum item para conferir
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-sm-6 col-lg-4" *ngFor="let r of reversePackItem">
+        <div class="card shadow-md elinox-card h-100">
+          <div class="card-body d-flex flex-column border rounded">
+            <div class="d-flex align-items-start justify-content-between mb-2">
+              <h5 class="card-title mb-0">
+                <span class="badge text-bg-success px-2 py-1">{{ r.itemCode }}</span>
+              </h5>
+              <span class="badge text-bg-danger" *ngIf="r.status">{{r.status}}</span>
+              <i class="bi bi-exclamation-circle-fill" (click)="openModal(modalItemsSemelhantes, 0, r.docNum, r.itemCode)" style="font-size: 22px;"></i>
+            </div>
+
+            <p class="mb-1 fw-semibold text-truncate-2">{{ r.description }}</p>
+
+            <div class="small text-muted mb-2">
+              Quantidade de Itens: <strong>{{ r.quantityUmv }}</strong>
+            </div>
+
+            <div class="alert alert-primary py-2 px-3 mb-0">
+              <strong>Obs:</strong> (Nenhuma)
+            </div>
+               <button class="btn btn-block btn-danger mt-2" (click)="retomarUA(r.absEntry, r.lineNum)">RETOMAR COM UA </button>
+            
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- AÇÕES -->
+    <div class="row g-2 mt-4">
+
+      <div class="col-12">
+        <button class="btn btn-info text-white w-100" (click)="recriar()">RECRIAR VOLUME</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER FIXO -->
+  <footer class="elinox-footer">
+    <div class="container text-center py-2 small">
+      MY WMS – <strong>Versão:</strong> V2.2.1 <strong>IP:</strong> 192.168.10.12
+    </div>
+  </footer>
+</div>
+
+<!-- SPINNER (ngx-spinner) -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="color: white">Aguarde...</p>
+</ngx-spinner>
+
+<!-- MODAL EXCLUI -->
+<ng-template #modalExclui let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title">Confirma Exclusão do Item</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('close')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger mb-0" role="alert">
+          O Item será excluído desse volume e será disponibilizado no pedido para confecção de outro volume.
+          <br>
+          <br>
+          <strong>ITENS QUE ESTEJAM EM MAIS DE UM VOLUME SERÃO AUTOMATICAMENTE REMOVIDOS DE TODOS OS VOLUMES.</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="confirmExcluir(); modal.close('ok')">Confirmar</button>
+        <button class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- MODAL DESFAZ -->
+<ng-template #modalDesfaz let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title">Confirma Desfazer picking</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('close')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger mb-0" role="alert">
+          Atenção, item será devolvido para o endereço de origem, picking desfeito, e volumes removidos.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="confirmDesfazer(); modal.close('ok')">Confirmar</button>
+        <button class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalItemsSemelhantes let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title">VOLUMES DESSE ITEM E PEDIDO.</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('close')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive" role="alert">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Volume</th>
+                <th>Quantidade de Peças</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let items of itemsInVolumes;">
+                <td>{{formatVol(items.volume)}}</td>
+ 
+                <td>{{items.pecas}}</td>
+ 
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

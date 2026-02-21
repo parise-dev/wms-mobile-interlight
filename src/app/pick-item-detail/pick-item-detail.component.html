@@ -1,0 +1,489 @@
+<ion-content class="page m-0 p-0" [fullscreen]="true" scrollEvents="true">
+
+  <!-- SPINNER enquanto carrega -->
+  <ngx-spinner *ngIf="!productsRequest" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="color: white"> Carregando a tela de separação... </p>
+  </ngx-spinner>
+
+  <!-- CONTEÚDO só aparece quando tiver dados -->
+  <div class="bg-white" *ngIf="productsRequest">
+    <!-- Header simples mantendo a cor original -->
+    <div class="container-fluid py-3"
+      [ngStyle]="{ 'background-color': productsRequest?.line?.pickStatus === 'Y' ? '#f4a460' : '#39B4E2', 'color': '#fff' }">
+      <div class="row g-2 align-items-start">
+        <div class="col-12">
+          <h5 class="m-0 d-flex align-items-start gap-2">
+            <i class="bi bi-arrow-left-circle" (click)="backToDocument()" style="cursor:pointer;"></i>
+            <span class="badge text-bg-success">{{ productsRequest?.line?.itemCode ?? '-' }}</span>
+            <span class="fw-semibold">{{ productsRequest?.line?.dscription ?? 'Item sem descrição' }}</span>
+            <i class="bi bi-exclamation-circle-fill ms-auto" style="cursor:pointer;"
+              (click)="openObsOrder(modalObservacaoOrder, productsRequest?.line?.orderLine ?? 0, 'md')"></i>
+          </h5>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <p class="text-12 mb-1">Pedido</p>
+          <p class="p-2 rounded text-12 bg-info text-dark">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ productsRequest?.line?.docNum ?? '-' }} – {{ productsRequest?.line?.cardName ?? '-' }}
+          </p>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <p class="text-12 mb-1">Tipo de Frete</p>
+          <p class="p-2 rounded text-12 bg-info text-dark">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ productsRequest?.line?.tipoFrete ?? 'Não informado' }}
+          </p>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <p class="text-12 mb-1">Tratativas</p>
+          <p class="p-2 rounded text-12 bg-info text-dark">-</p>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <p class="text-12 mb-1">Vendedor (linha)</p>
+          <p class="p-2 rounded text-12 bg-info text-dark">
+            {{ productsRequest?.line?.commentsLine ?? '-' }}
+          </p>
+        </div>
+
+        <div class="col-12" *ngIf="(productsRequest?.line?.obsqualidade ?? '') !== ''">
+          <p class="text-12 mb-1">Qualidade</p>
+          <p class="p-2 rounded text-12 bg-info text-dark">
+            {{ productsRequest?.line?.obsqualidade ?? 'Sem Observação' }}
+          </p>
+        </div>
+
+        <div class="col-12" *ngIf="(productsRequest?.line?.comments ?? '') !== ''">
+          <p class="text-12 mb-1">Observação item vendedor</p>
+          <p class="p-2 rounded text-12 bg-warning text-dark">
+            {{ productsRequest?.line?.comments }}
+          </p>
+        </div>
+
+        <div class="col-12" *ngIf="productsRequest?.questions?.length">
+          <div class="d-flex align-items-center justify-content-between">
+            <p class="text-12 mb-1">Pedido com questionário no final</p>
+            <i class="bi bi-chat-left-text-fill" style="font-size:18px; cursor:pointer;"
+              (click)="openObsOrder(modalObservacaoSeparacao, productsRequest?.line?.orderLine ?? 0, 'lg')"></i>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <span *ngFor="let q of productsRequest?.questions" class="badge rounded-pill bg-success">{{ q }}</span>
+          </div>
+        </div>
+
+        <!-- Alertas de KG / fotos -->
+        <div class="col-12" *ngIf="(productsRequest?.line?.umv ?? '').toUpperCase() === 'KG'">
+          <div class="alert alert-danger mb-2" role="alert">
+            Obrigatório pesar e tirar foto do material.
+            <i class="bi bi-camera float-end" style="cursor:pointer;"
+              (click)="openFinish(modalObservacaoFoto, 'xl')"></i>
+          </div>
+          <div class="alert alert-info" role="alert" *ngIf="(images?.length ?? 0) > 0">
+            ({{ images?.length }}) fotos anexas
+          </div>
+        </div>
+
+        <!-- Endereço sugerido + UA/lote -->
+        <div class="col-12 col-md-6">
+          <label class="text-12 mb-1">Endereço (sugerido)</label>
+          <input class="form-control form-control-sm text-12" placeholder="(Endereço não inventariado)" disabled>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="text-12 mb-1">Bipe a (UA) ou Lote do Material</label>
+          <input class="form-control form-control-sm text-12" (change)="getUA()">
+        </div>
+
+        <!-- Totais -->
+        <div class="col-12 col-md-6">
+          <label class="text-12 mb-1">Qtde Pedido</label>
+          <input class="form-control form-control-sm text-12" [placeholder]="productsRequest?.line?.quantity ?? '-'"
+            disabled>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="text-12 mb-1">Unidade de Medida</label>
+          <input class="form-control form-control-sm text-12" [placeholder]="productsRequest?.line?.umv ?? '-'"
+            disabled>
+        </div>
+
+        <div class="col-4">
+          <label class="text-12 mb-1">Qtde ({{ (productsRequest?.line?.umv ?? '').toUpperCase() }})</label>
+          <input class="form-control form-control-sm text-12" type="number" [(ngModel)]="totalOrderUMV" disabled>
+        </div>
+        <div class="col-4">
+          <label class="text-12 mb-1">Qtde ({{ (productsRequest?.line?.ume ?? '').toUpperCase() }})</label>
+          <input class="form-control form-control-sm text-12" type="number" [(ngModel)]="totalOrderUME" disabled>
+        </div>
+        <div class="col-4">
+          <label class="text-12 mb-1">Peças</label>
+          <input class="form-control form-control-sm text-12" type="number" [(ngModel)]="totalRequestedPecas" disabled>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTA DE UAs / LINHAS EM CARDS -->
+    <div class="alert alert-dark" role="alert" (click)="openModalZerado(modalZerados)">
+      Mostrar lotes zerados no sistema
+    </div>
+    <div class="container py-3">
+      <div class="row g-3 row-cols-1 row-cols-sm-2 row-cols-lg-3">
+        <div class="col" *ngFor="let ua of productsRequest?.items; let i = index">
+          <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body">
+              <div class="d-flex align-items-start justify-content-between mb-2">
+                <div>
+                  <h6 class="mb-1">Endereço: <span class="fw-semibold">Inventariar</span></h6>
+                  <small class="text-muted">UA: <span>{{ '000000000' }}</span></small>
+                </div>
+                <a class="small" (click)="clear(ua, productsRequest)" style="cursor:pointer;">limpar</a>
+              </div>
+
+              <!-- Faixa com Lote / U.M / Qtde + botão Ajustar (abre modal por card) -->
+              <div
+                class="d-flex align-items-center justify-content-between bg-secondary text-white rounded px-2 py-2 mb-2">
+                <small>
+                  Lote: <span class="fw-semibold">{{ ua?.batch ?? '-' }}</span>
+                  &nbsp;•&nbsp; U.M: <span class="fw-semibold">{{ ua?.ume ?? '-' }}</span>
+                  &nbsp;•&nbsp; Qtde: <span class="fw-semibold">{{ ua?.disponivel ?? '-' }}</span>
+                  <ng-container *ngIf="ua?.selectedLot && ua?.selectedQty">
+                    &nbsp;|&nbsp; <span class="badge bg-light text-dark">Lote {{ ua.selectedLot }} • {{ ua.selectedQty
+                      }}</span>
+                  </ng-container>
+                </small>
+
+                <!-- abre modal do card i -->
+                <button type="button" class="btn btn-sm btn-light text-dark d-flex align-items-center"
+                  (click)="openAdjustFlow(modalSupervisor, modalAjuste, ua)">
+                  <i class="bi bi-sliders me-1"></i> Ajustar
+                </button>
+              </div>
+
+              <!-- Inputs de quantidades -->
+              <div class="row g-2">
+                <div class="col-12" *ngIf="productsRequest?.line?.factor !== 1">
+                  <label class="text-12 mb-1">
+                    Qtde ({{ (productsRequest?.line?.ume ?? '').toUpperCase() }})
+                    <small class="text-muted float-end">UME</small>
+                  </label>
+                  <input class="form-control form-control-sm text-12" type="number" [(ngModel)]="ua.pickedUME">
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="text-12 mb-1">
+                    Qtde ({{ (productsRequest?.line?.umv ?? '').toUpperCase() }})
+                    <small class="text-muted float-end">UMV</small>
+                  </label>
+                  <input class="form-control form-control-sm text-12" type="number" [(ngModel)]="ua.pickedUMV">
+                </div>
+
+                <div class="col-12 col-md-6" *ngIf="pecaVisible()">
+                  <label class="text-12 mb-1">Peças</label>
+                  <input class="form-control form-control-sm text-12" type="number" [(ngModel)]="ua.pickedPCK">
+                </div>
+              </div>
+
+              <button *ngIf="productsRequest?.line?.pickStatus !== 'Y'" class="btn btn-primary w-100 mt-3"
+                (click)="setSolicitado(i)">
+                Confirmar
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+      <!-- Botão concluir geral -->
+      <div class="row mt-3" *ngIf="productsRequest?.line?.pickStatus !== 'Y'">
+        <div class="col-12">
+          <button class="btn btn-primary w-100 py-2" (click)="finishPickingCamera(modalObservacaoFoto)">
+            Concluir separação do item
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seus modais existentes continuam IGUAIS (Observação/Foto) -->
+  <!-- modalObservacaoOrder / modalObservacaoSeparacao / modalObservacaoFoto -->
+</ion-content>
+
+<ng-template #modalObservacaoOrder let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">Nova Tratativa</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+      </div>
+      <div class="modal-body p-1">
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Selecione o motivo:</strong></label>
+          <select class="form-control form-control-sm" name="orderInObsOrder" [(ngModel)]="tratativaSelected">
+            <option>AGUARDANDO INSPEÇÃO</option>
+            <option>ANÁLISE DE INVENTÁRIO</option>
+            <option>CONFIRMAÇÃO CLIENTE</option>
+            <option>EM TRATATIVA DE QUALIDADE</option>
+            <option>SEPARANDO NA VIA FÍSICA</option>
+            <option>TROCAR ETIQUETA</option>
+          </select>
+        </div>
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Observação</strong></label>
+          <textarea class="form-control form-control-sm" rows="4" [(ngModel)]="tratativaObs"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer p-0">
+        <button class="btn btn-sm btn-primary float-end " (click)="createIssue()">Gerar Tratativa</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalObservacaoSeparacao let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">Observação da Separação</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+      </div>
+      <div class="modal-body p-1">
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Informe a Observação necessária:</strong></label>
+          <textarea class="form-control form-control-sm" rows="4" name="text" [(ngModel)]="saveObs"></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer p-0">
+        <button class="btn btn-sm btn-primary float-end " (click)="saveObsPicking()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalObservacaoFoto let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-foto">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">Comprovante de Pesagem</h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click'); stopCamera()">
+        </button>
+      </div>
+
+      <!-- AQUI É modal-body, NÃO outro modal-content -->
+      <div class="modal-body modal-foto-body">
+        <div class="image-list">
+          <div *ngFor="let img of images; let i = index" class="image-item">
+            <img [src]="img.imagem" class="captured-image p-3" />
+
+            <label class="mt-2 mb-1 text-12">
+              <strong>Selecione o tipo de peso</strong>
+            </label>
+            <select
+              class="ps-3 pe-3 form-control form-control-sm"
+              [name]="i + 'ds'"
+              [(ngModel)]="images[i].tipo">
+              <option value="I">Informe o tipo de peso</option>
+              <option value="PESOLIQUIDO">Peso Líquido</option>
+              <option value="PESOBRUTO">Peso Bruto</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- botão de nova foto sempre visível no final do body -->
+        <button
+          class="btn btn-primary btn-sm mt-2 w-100"
+          type="button"
+          (click)="takePhoto()">
+          Capturar imagem
+        </button>
+      </div>
+
+      <div class="modal-footer modal-foto-footer">
+        <button
+          class="btn btn-sm btn-primary ms-auto"
+          type="button"
+          (click)="check()">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modalAjuste let-modal>
+  <div class="modal modal-show d-block" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header modalElinox">
+          <h5 class="modal-title">Ajustar Lote e Quantidade</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('x')"></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Seleção de lotes existentes -->
+          <div class="mb-3">
+
+            <div class="card card-body p-3 border-dashed mt-2 mb-4">
+              <strong>Faça com ATENÇÃO, modificação não pode ser desfeita</strong>
+            </div>
+            <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" id="toggleLote" [(ngModel)]="mostrarSelecaoLote" />
+              <label class="form-check-label" for="toggleLote">Selecionar lote existente</label>
+            </div>
+
+            <div class="mb-3">
+              <label class="lbl">Quantidade do lote selecionado [{{uaSelecionada.batch}}]</label>
+              <input class="form-control" type="number" min="0" [(ngModel)]="ajusteForm.qtd">
+              <small class="form-text text-muted">Essa quantidade será vinculada ao lote escolhido.</small>
+            </div>
+
+            <div class="list-group" *ngIf="mostrarSelecaoLote">
+              <label class="list-group-item d-flex align-items-center gap-2">
+                <input type="radio" name="loteSel" [(ngModel)]="ajusteForm.lote" value="ABC">
+                <span>QL004938201
+                  <small class="float-end">(1926 MT)</small>
+                </span>
+              </label>
+              <label class="list-group-item d-flex align-items-center gap-2">
+                <input type="radio" name="loteSel" [(ngModel)]="ajusteForm.lote" value="DFE">
+                <span>QL004938201
+                  <small class="float-end">(12 MT)</small>
+                </span>
+
+              </label>
+            </div>
+          </div>
+
+
+
+
+          <div *ngIf="ajusteForm._novoAtivo" class="card card-body p-3 border-dashed">
+            <div class="mb-2">
+              <label class="lbl">Código do novo lote</label>
+              <input class="form-control" placeholder="Ex.: LOTE-2025-0001" [(ngModel)]="ajusteForm.novoLote">
+            </div>
+            <div>
+              <label class="lbl">Quantidade do novo lote <span class="badge bg-danger">destacar</span></label>
+              <input class="form-control border-2 border-danger-subtle" type="number" min="0"
+                [(ngModel)]="ajusteForm.novoQtd">
+              <small class="form-text text-muted">Certifique-se que o lote informado esteja correto!</small>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-light" (click)="modal.dismiss('cancel')">Cancelar</button>
+          <button class="btn btn-primary" [disabled]="!podeConfirmarAjuste()" (click)="confirmarAjuste(modal)">
+            Aplicar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show"></div>
+</ng-template>
+
+<ng-template #modalZerados let-modal>
+  <div class="modal modal-show d-block" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header modalElinox">
+          <h5 class="modal-title">Lotes desse material com quantidade zero</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('x')"></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Seleção de lotes existentes -->
+          <div class="mb-3">
+            <div class="alert alert-danger" role="alert">
+              Para definir um ajuste para um lote com quantidade zero você precisara de uma autorização da sua liderança.
+              <br>
+              <hr>
+              <strong>Essa ação não poderá ser desfeita.</strong>
+            </div>
+            <div class="list-group">
+              <p>Lotes</p>
+              <label class="list-group-item d-flex align-items-center gap-2">
+                <input type="radio" name="loteSel" [(ngModel)]="ajusteForm.lote" value="ABC">
+                <span>QL004938201
+                  <small class="float-end">(0 MT)</small>
+                </span>
+              </label>
+              <label class="list-group-item d-flex align-items-center gap-2">
+                <input type="radio" name="loteSel" [(ngModel)]="ajusteForm.lote" value="DFE">
+                <span>QL004938201
+                  <small class="float-end">(12 MT)</small>
+                </span>
+
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="lbl">Quantidade do lote selecionado [{{uaSelecionada.batch}}]</label>
+              <input class="form-control" type="number" min="0" [(ngModel)]="ajusteForm.qtd">
+              <small class="form-text text-muted">Essa quantidade será vinculada ao lote escolhido.</small>
+            </div>
+          </div>
+
+
+
+          <hr>
+
+
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-light" (click)="modal.dismiss('cancel')">Cancelar</button>
+          
+          <button class="btn btn-primary" (click)="openAdjustFlow(modalSupervisor, modalAjuste, null)">
+            Aplicar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show"></div>
+</ng-template>
+
+<ng-template #modalSupervisor let-modal>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-ajuste">
+      <div class="modal-header">
+        <h5 class="modal-title">Verificação de acesso</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-2">Informe a senha do supervisor para continuar.</p>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+          <input type="password" class="form-control" [(ngModel)]="supervisorPass" placeholder="Senha do supervisor" />
+        </div>
+        <small *ngIf="supervisorError" class="text-danger d-block mt-2">{{ supervisorError }}</small>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+        <button class="btn btn-primary" (click)="verifySupervisor(modal, modalAjuste)">Autorizar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="color: white"> {{messageSpinner}} </p>
+</ngx-spinner>

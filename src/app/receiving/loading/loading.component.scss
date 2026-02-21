@@ -1,0 +1,632 @@
+/* ===== BASE ===== */
+:host, html, body{
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  background: #f3f4f6;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* ===== HEADER PADRÃO INTERIOR ===== */
+.reversa-header{
+  background-color: black;
+  color: #fff;
+  padding: 1.25rem 1rem; /* header maior */
+  z-index: 10;
+}
+
+.reversa-header h3{
+  letter-spacing: .2px;
+}
+
+.reversa-header .bi-arrow-left-circle{
+  font-size: 1.6rem;
+}
+
+.reversa-header .bi-arrow-clockwise{
+  font-size: 1.4rem;
+}
+
+/* ===== PAGE WRAPPER ===== */
+.page-wrapper{
+  padding: 12px;
+  min-height: calc(100dvh - 74px); /* ajusta conforme altura do header */
+}
+
+/* ===== EMPTY / ALERT ===== */
+.empty-state{
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  color: #6b7280;
+  font-size: .9rem;
+}
+
+/* ===== LISTA ===== */
+.list-section{
+  margin-top: 10px;
+}
+
+.drivers-list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Card no padrão dos seus invoice-cards */
+.driver-card{
+  width: 100%;
+  text-align: left;
+
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+
+  transition: box-shadow .15s ease, transform .12s ease, border-color .15s ease;
+}
+
+.driver-card:hover{
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  border-color: #39B4E2;
+  transform: translateY(-1px);
+}
+
+/* Avatar */
+.driver-avatar{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #0369a1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 800;
+  flex: 0 0 auto;
+}
+
+/* Infos */
+.driver-info{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.driver-name{
+  font-size: .95rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.15;
+}
+
+.driver-visit{
+  margin-top: 4px;
+  font-size: .82rem;
+  color: #6b7280;
+}
+
+/* Viagens (pills) */
+.driver-travels{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.travel-pill{
+  font-size: .72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #334155;
+  white-space: nowrap;
+}
+
+/* Seta */
+.driver-action{
+  font-size: 1.25rem;
+  color: #9ca3af;
+  flex: 0 0 auto;
+}
+
+/* ===== MODAL PADRÃO INTERIOR (responsivo) ===== */
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.45);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.modal-container{
+  width: min(520px, 100%);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+
+  max-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.modal-header{
+  padding: 10px 14px;
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-title{
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.modal-subtitle{
+  margin: 2px 0 0;
+  font-size: .82rem;
+  color: #6b7280;
+}
+
+.modal-close{
+  border: none;
+  background: transparent;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.modal-body{
+  padding: 12px 14px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.modal-footer{
+  border-top: 1px solid #e5e7eb;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Campos */
+.field-block{
+  margin-bottom: 6px;
+}
+
+.field-label{
+  font-size: .8rem;
+  font-weight: 600;
+  color: #a5a7ac;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.field-input{
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 10px 10px;
+  font-size: .9rem;
+}
+
+.field-input:focus{
+  outline: none;
+  border-color: #39B4E2;
+  box-shadow: 0 0 0 2px rgba(57, 180, 226, 0.18);
+}
+
+.field-helper{
+  margin-top: 6px;
+  font-size: .78rem;
+  color: #b91c1c;
+}
+
+/* Mobile */
+@media (max-width: 640px){
+  .page-wrapper{
+    padding: 10px;
+  }
+
+  .modal-backdrop{
+    padding: 0;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .modal-container{
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+
+  .modal-footer{
+    flex-direction: column;
+    justify-content: stretch;
+  }
+
+  .modal-footer .btn{
+    width: 100%;
+  }
+}
+
+/* ===== Status dot no card ===== */
+.driver-card {
+  position: relative;
+}
+
+/* bolinha no canto superior esquerdo do card */
+.status-dot {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.85);
+}
+
+.dot-green { background: #22c55e; }
+.dot-red   { background: #ef4444; }
+
+.blink {
+  animation: blinkPulse 1s infinite;
+}
+
+@keyframes blinkPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.25); opacity: .55; }
+}
+
+/* ===== Tabela clean do modal ===== */
+.table-wrap {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.06);
+  overflow: hidden;
+}
+
+.table-title {
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: 14px;
+  background: #f8fafc;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table-count {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.clean-table thead th {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  background: #fff;
+}
+
+.clean-table tbody tr:hover {
+  background: #f1f5f9;
+}
+
+.row-clickable {
+  cursor: pointer;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+}
+
+.travel-name {
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.travel-sub {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.empty-inline {
+  padding: 12px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+/* botão "Ver" menor e alinhado */
+.clean-table .btn-sm {
+  padding: 4px 10px;
+  border-radius: 10px;
+}.driver-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:center;
+  gap:6px;
+  min-width:92px;
+}
+
+.driver-time{
+  display:flex;
+  align-items:center;
+  font-size:12px;
+  color:#64748b;
+  white-space:nowrap;
+  line-height:1;
+}
+
+.driver-time i{
+  font-size:14px;
+}
+.driver-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:center;
+  gap:6px;
+  min-width:92px;
+}
+
+.driver-time{
+  display:flex;
+  align-items:center;
+  font-size:12px;
+  color:#64748b;
+  white-space:nowrap;
+  line-height:1;
+}
+
+.driver-time i{
+  font-size:14px;
+}
+.driver-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:center;
+  gap:6px;
+  min-width:92px;
+}
+
+.driver-time{
+  display:flex;
+  align-items:center;
+  font-size:12px;
+  color:#64748b;
+  white-space:nowrap;
+  line-height:1;
+}
+
+.driver-time i{
+  font-size:14px;
+}
+
+.page-wrapper{
+  padding: 12px;
+  height: calc(100dvh - 74px); /* ajuste se seu header for maior/menor */
+  overflow: hidden;
+}
+
+.list-section{
+  height: 100%;
+  overflow-y: auto;        /* ✅ scroll só na lista */
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 12px;
+  min-height: 0;
+}
+/* ===== LAYOUT COM SCROLL NA LISTA ===== */
+:host{
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;          /* ocupa a tela inteira */
+  overflow: hidden;        /* evita scroll no body */
+}
+
+/* header continua igual, só garanta que não “empurre” */
+.reversa-header{
+  flex: 0 0 auto;
+}
+
+/* o main vira a área scroll */
+.page-wrapper{
+  flex: 1 1 auto;
+  overflow-y: auto;        /* ✅ scroll aqui */
+  -webkit-overflow-scrolling: touch; /* iOS */
+  padding: 12px;
+  min-height: 0;           /* ✅ importante em layout flex */
+}
+
+/* opcional: deixa o scroll mais “limpo” */
+.page-wrapper{
+  scrollbar-gutter: stable;
+}
+/* ===== STATUS CHIP (moderno) ===== */
+.status-chip{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  line-height: 1;
+
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+
+  white-space: nowrap;
+}
+
+.status-chip i{
+  font-size: 14px;
+  line-height: 1;
+  opacity: .9;
+}
+
+/* cores (elegante, pastel + contraste) */
+.status-chip--ok{
+  background: rgba(34, 197, 94, .12);
+  color: #15803d;
+  border-color: rgba(34, 197, 94, .25);
+}
+
+.status-chip--warn{
+  background: rgba(245, 158, 11, .14);
+  color: #92400e;
+  border-color: rgba(245, 158, 11, .28);
+}
+
+.status-chip--danger{
+  background: rgba(239, 68, 68, .12);
+  color: #991b1b;
+  border-color: rgba(239, 68, 68, .26);
+}
+
+.status-chip--info{
+  background: rgba(59, 130, 246, .12);
+  color: #1d4ed8;
+  border-color: rgba(59, 130, 246, .26);
+}
+
+.status-chip--neutral{
+  background: rgba(100, 116, 139, .12);
+  color: #334155;
+  border-color: rgba(100, 116, 139, .22);
+}
+.driver-right{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  min-width: 110px; /* dá espaço e evita colisão */
+}
+.status-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 3px 10px;
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+
+  white-space: nowrap;
+
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+}
+
+.status-chip i{
+  font-size: 14px;
+  line-height: 1;
+}
+/* ===== Linha carrier + checker ===== */
+.checker-line{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+/* separador */
+.sep{
+  color: #cbd5f5;
+  font-weight: 700;
+}
+
+/* nome checker */
+.checker-name{
+  font-weight: 600;
+  color: #334155;
+}
+
+/* ===== STATUS MINI ===== */
+.status-mini{
+  margin-left: 6px;
+  padding: 2px 6px;
+
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+
+  border-radius: 6px;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+/* reaproveita suas classes de status */
+.status-chip--ok{
+  background: rgba(34, 197, 94, .12);
+  color: #15803d;
+  border-color: rgba(34, 197, 94, .35);
+}
+
+.status-chip--warn{
+  background: rgba(245, 158, 11, .14);
+  color: #92400e;
+  border-color: rgba(245, 158, 11, .35);
+}
+
+.status-chip--danger{
+  background: rgba(239, 68, 68, .12);
+  color: #991b1b;
+  border-color: rgba(239, 68, 68, .35);
+}
+
+.status-chip--info{
+  background: rgba(59, 130, 246, .12);
+  color: #1d4ed8;
+  border-color: rgba(59, 130, 246, .35);
+}
+
+.status-chip--neutral{
+  background: rgba(100, 116, 139, .12);
+  color: #334155;
+  border-color: rgba(100, 116, 139, .35);
+}

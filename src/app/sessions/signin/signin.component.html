@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-elinox text-center" style="overflow-y: auto;">
+  <div class="bg-white rounded-4 shadow p-4" style="width: 350px;">
+    <img src="../../../assets/elinoxwms.png" alt="Logo" class="mb-3" style="width: 240px;" />
+
+    <p class="text-muted small mb-3">
+      Todos os dados aqui contidos são de uso exclusivo da <strong>ELINOX CENTRAL DE AÇO</strong><br />
+      <strong>CNPJ: 04.330.905/0001-80</strong>.
+    </p>
+
+    <h4 class="fw-bold text-dark mb-4">Login</h4>
+
+    <p class="text-muted small mb-3">
+      Problemas com acesso? <a href="#" class="text-primary text-decoration-none">Contratar suporte</a>
+    </p>
+    <form [formGroup]="signinForm">
+    <div class="text-start mb-3">
+      <label class="form-label small">Usuário</label>
+      <input type="text" class="form-control" placeholder="Digite o seu usuário SAP"  formControlName="user" />
+    </div>
+
+    <div class="text-start mb-4">
+      <label class="form-label small">Senha</label>
+      <input type="password" class="form-control" placeholder="" formControlName="password" />
+    </div>
+
+    <button class="btn btn-primary w-100" (click)="signin()" [disabled]="loading">Entrar</button>
+  </form>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="color: white" > Carregando... </p>
+  </ngx-spinner>

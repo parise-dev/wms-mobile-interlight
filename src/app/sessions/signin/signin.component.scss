@@ -1,0 +1,153 @@
+
+.tmz{
+    width:80%;
+}
+
+.btns{
+    background-color: #00ade2 !important;
+}
+
+.bem-vindo{
+    font-size: 50px;
+    color: white;
+    font-family: 'Arial Black';
+    max-width: 600px;
+    
+}
+
+.bemVi{
+    padding-top: 42vh;
+    padding-left: 14vh;
+}
+
+
+
+.bck-image {
+     background-image: linear-gradient(to bottom, rgb(0, 76, 99,0.5), rgb(35, 166, 206,0.5)),
+            url('http://192.168.10.15:6500/api/Attachaments/random') !important;
+    background-size: cover;
+  }
+
+  //57133
+.testet{
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    color:#2e2f30;
+}
+
+.colOne{
+  //  background-color: #004C63; 
+    height: 100vh;
+}
+
+.bg-elinox{
+    background-color: #00ade2;
+}
+
+.container{
+    width: 100%;
+    height: 300px; /* Altura fixa para simular o problema */
+    padding: 0%;
+}
+
+.colTwo{
+    background-color: white;
+    width: 100%;
+    padding: 5%;
+    display: flex;
+    overflow: scroll;
+    justify-content: center;
+    align-items: center;
+}
+
+.hireSupport{
+    color: #004C63;
+    font-weight: 200;
+}
+
+.formGroup{
+    margin-top: 40px;
+}
+
+.labelOne{
+    font-size: 12px;
+}
+
+.spacingInInput{
+    padding: 10px;
+}
+
+.spacingInEmailparaSenha{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+
+
+//mobile
+@media screen and (max-width: 500px){
+    .colOne{
+        display: none
+    }
+
+    .colTwo{
+        background-color: #004C63;
+        height: 100vh;
+        padding: none;
+        display: flex;
+        justify-content: center !important;
+        align-items: center !important;
+
+    }
+
+    .divMobile{
+        background-color: white;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .marginImg{
+        width: 80%;
+        height: 80%;
+    }
+}
+
+@media (max-height: 700px) {
+    .login-container {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      align-items: flex-start !important;
+    }
+  }
+
+@media screen and (min-height: 1025px){
+    .bem-vindo{
+        font-size: 80px;
+        max-width: 700px;
+    }
+
+    .testet{
+        font-size: 50px;
+    }
+
+    .tamSm{
+        font-size: 14px;
+    }
+
+    .labelOne{
+        font-size: 16px;
+    }
+
+    
+}
+
+
+.alertB{
+    margin-top: 20px;
+    margin-bottom: 5vh;
+}
+
+
+

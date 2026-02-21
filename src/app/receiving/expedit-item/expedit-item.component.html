@@ -1,0 +1,160 @@
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="color: white"> Aguarde... </p>
+  </ngx-spinner>
+<div class="container p-0">
+  <ion-content class="m-0">
+    <ion-grid style="background-color: #39B4E2; color: #fff;" class="pt-3 p-0 pb-3">
+      <ion-row class=" ps-2 pt-4 pe-0 mb-3">
+  
+        <h4>
+          <i class="bi bi-arrow-left-circle ms-2 me-2 text-36" style="font-size: 24px;" (click)="backHome()"></i>
+          #ITENS NO VOLUME 
+        </h4>
+      </ion-row>
+      <div class="row ps-2 pe-2">
+        <div class="btn-group" role="group" aria-label="Basic example">
+        </div>
+      </div>
+  
+  
+    </ion-grid>
+    <h6 class="m-3">Digite ou bipe o código do volume:</h6>
+    <div class="m-2 mb-4">
+      <div class="input-group m-2 mb-4 me-3">
+        <input type="text" 
+        class="form-control me-2" #barcodeInput
+         placeholder="Número do volume" 
+         aria-label="Recipient's username"
+          name="keyD"
+          
+          aria-describedby="basic-addon2">
+        <div class="input-group-append me-2">
+          <button class="btn btn-outline-secondary" type="button" >OK</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3 mb-3"></div>
+    <h6 class="m-2 mt-4 ms-3 mb-3">Produtos atribuidos ao volume</h6>
+  <div *ngFor="let p of volume; let i = index">
+  
+      <div class="card borderx m-2 mb-4" [ngStyle]="{'background-color': p.carregado === 'Y' ? 'green' : 'transparent'}" 
+      
+      (click)="setCarregado(i)">
+        <div class="row pe-2" [ngStyle]="{'color': p.carregado === 'Y' ? 'white' : 'black'}">
+          <h6 class="ms-3 mt-3 mb-0 me-0 pe-2"><span class="bg bg-primary ps-2 pe-2 ms-2 me-2">{{p.itemCode}}</span>{{p.dscription}}
+          </h6> 
+          
+          <p class="text-muted m-3" style="font-size: 14px;">
+            <small class="bg bg-secondary rounded text-white ps-2 pe-2 ms-1 me-1 text-nowrap" style="font-size: 12px;">N° Pedido:  {{p.docNum}}</small>   
+            <small class="bg bg-secondary rounded text-white ps-2 pe-2 ms-1 me-1 text-nowrap" style="font-size: 12px;">Pacotes:  {{p.package}}</small>
+            <small class="bg bg-secondary rounded text-white ps-2 pe-2 ms-1 me-1 text-nowrap" style="font-size: 12px;">Volume:  {{p.pack}}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    <ion-footer class="mt-4">
+      <ion-button expand="block" (click)="concluirCarregado()">
+    CONCLUIR ENVIO DO VOLUME
+  </ion-button>
+    </ion-footer>
+    
+  </ion-content>
+  </div>
+
+-->
+
+
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p class="spinner-text">Aguarde...</p>
+  </ngx-spinner>
+
+
+  <ion-content class="page">
+
+    <!-- TOPBAR (padrão menus anteriores) -->
+    <div class="reversa-header sticky-top">
+        <div class="d-flex align-items-center justify-content-between">
+            <!-- Voltar -->
+            <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backHome()">
+                <i class="bi bi-arrow-left-circle ms-1"></i>
+            </button>
+
+            <!-- Título central -->
+            <div class="flex-grow-1 text-center">
+                <h3 class="m-0 fw-bold">Expedição Interlight</h3>
+            </div>
+
+            <!-- Ação direita (refresh) -->
+            <button class="btn btn-link text-white p-0 d-flex align-items-center" aria-label="Atualizar">
+                <i class="bi bi-arrow-clockwise fs-4"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- SCAN -->
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Digite ou bipe o código do volume</div>
+          <div class="card-subtitle">Use o leitor e pressione Enter para agilizar</div>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <input #barcodeInput type="text" class="input" placeholder="Número do volume" name="keyD" autocomplete="off"
+          autocapitalize="characters" />
+
+        <button class="btn btn-outline" type="button">
+          OK
+        </button>
+      </div>
+    </section>
+
+    <!-- LIST HEADER -->
+    <div class="section-head">
+      <h6 class="section-title">Produtos atribuídos ao volume</h6>
+      <span class="section-count" *ngIf="volume?.length">{{ volume.length }}</span>
+    </div>
+
+    <!-- EMPTY -->
+    <div class="empty" *ngIf="volume?.length === 0">
+      <i class="bi bi-inbox"></i>
+      <div>
+        <div class="empty-title">Nenhum produto encontrado</div>
+        <div class="empty-sub">Bipe um volume válido para carregar os itens.</div>
+      </div>
+    </div>
+
+    <!-- LIST -->
+    <button type="button" class="item-card" *ngFor="let p of volume; let i = index" (click)="setCarregado(i)"
+      [class.loaded]="p.carregado === 'Y'">
+      <div class="item-top">
+        <span class="sku">{{ p.itemCode }}</span>
+        <span class="loaded-badge" *ngIf="p.carregado === 'Y'">
+          <i class="bi bi-check2-circle"></i> Carregado
+        </span>
+      </div>
+
+      <div class="desc">
+        {{ p.dscription }}
+      </div>
+
+      <div class="chips">
+        <span class="chip chip-dark">Pedido: {{ p.docNum }}</span>
+        <span class="chip chip-muted">Pacotes: {{ p.package }}</span>
+        <span class="chip chip-info">Volume: {{ p.pack }}</span>
+      </div>
+
+      <div class="chevron">
+        <i class="bi bi-chevron-right"></i>
+      </div>
+    </button>
+
+    <div class="footer-spacer"></div>
+  </ion-content>
+
+<div class="footer-fixed">
+  <button class="btn w-100" style="background-color: black;" expand="block" (click)="concluirCarregado()">
+    CONCLUIR ENVIO DO VOLUME
+  </button>
+</div>

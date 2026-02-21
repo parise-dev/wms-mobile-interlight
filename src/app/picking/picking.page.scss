@@ -1,0 +1,43 @@
+.container-ws {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    width: 100%;
+}
+.bg-especial{
+    background-color: black;
+    border-radius: 2%;
+    font-size: 14px;
+    color: white;
+}
+ion-chip {
+    margin: 5px;
+}
+
+.borda-vermelha {
+  border: 2px dashed red;
+}
+
+ion-card {
+    margin: 10px 0;
+}
+
+ion-badge {
+    margin-left: 10px;
+}
+
+.text-22{
+    font-size: 28px !important;
+}
+.text-12{
+    font-size: 12px !important;
+}
+.bg-white{
+    background-color: #fff;
+}
+
+.bg-elinox{
+    background-color: black;
+    border-color: black;
+}

@@ -1,0 +1,105 @@
+<div class="reversa-header sticky-top">
+        <div class="d-flex align-items-center justify-content-between">
+            <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backHome()">
+                <i class="bi bi-arrow-left-circle ms-1"></i>
+            </button>
+
+            <div class="flex-grow-1 text-center">
+                <h3 class="m-0 fw-bold">Empilhadeira</h3>
+            </div>
+
+            <button class="btn btn-link text-white p-0 d-flex align-items-center" aria-label="Atualizar">
+                <i class="bi bi-arrow-clockwise fs-4"></i>
+            </button>
+        </div>
+    </div>
+<div class="board d-flex gap-3">
+
+  <div class="board-col">
+    <div class="board-head">
+      <span>P/ DESCER</span>
+    </div>
+
+    <div class="board-body">
+      <div class="task-card ">
+        <div class="task-code">02-HÁ-01-01-01 <i class="bi bi-caret-up-fill"></i></div>
+
+        <div class="task-row">
+          <span class="task-pill">2 ITENS</span>
+          <span class="task-badge urgent">URGENTE</span>
+        </div>
+      </div>
+
+      <div class="task-card position-relative">
+        <div class="task-code">03-HÁ-02-05-12 <i class="bi bi-caret-up-fill ps-2"></i></div>
+
+        <div class="task-row">
+          <span class="task-pill">5 ITENS</span>
+          <span class="task-badge normal">NORMAL</span>
+        </div>
+      </div>
+
+      <div class="task-card position-relative">
+        <div class="task-code">01-HÁ-09-10-02 <i class="bi bi-caret-up-fill ps-2"></i></div>
+
+        <div class="task-row">
+          <span class="task-pill">1 ITEM</span>
+          <span class="task-badge urgent">URGENTE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="board-col">
+    <div class="board-head">
+      <span>NO CHÃO</span>
+    </div>
+
+    <div class="board-body">
+      <div class="task-card position-relative" (click)="openModalDefault(modalObservacaoCheckout)">
+        <div class="task-code">02-HÁ-01-01-01 <i class="bi bi-caret-down-fill ps-2"></i></div>
+
+        <div class="task-row">
+          <span class="task-pill">2 ITENS</span>
+          <span class="task-badge urgent">URGENTE</span>
+        </div>
+      </div>
+
+      <div class="task-card position-relative">
+        <div class="task-code">07-HÁ-03-11-01 <i class="bi bi-caret-down-fill ps-2"></i></div>
+
+        <div class="task-row">
+          <span class="task-pill">9 ITENS</span>
+          <span class="task-badge normal">NORMAL</span>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+
+</div>
+
+
+
+<ng-template #modalObservacaoCheckout let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">Confirmação</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+      </div>
+      <div class="modal-body p-1">
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Informe a observação necessária:</strong></label>
+          <textarea class="form-control form-control-sm" rows="4" name="text" ></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer p-0">
+        <button class="btn btn-danger">Cancelar</button>
+        <button class="btn btn-success">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

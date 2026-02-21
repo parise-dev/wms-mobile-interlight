@@ -1,0 +1,109 @@
+<div class="container-ws">
+  <div class="min-vh-100 d-flex flex-column pb-4">
+    <!-- Header -->
+    <div class="bg-elinox">
+      <div class="bg-elinox text-white px-4 py-1 m-0 d-flex justify-content-between align-items-center">
+
+        <i (click)="backHome()" class="bi bi-arrow-left-circle ms-1 me-1 text-22">
+        </i>
+        <div class="d-flex bg-elinox align-items-center mt-4">
+          <h5 class="fw-bold text-white m-0 mb-4">
+
+            Pedidos em Aberto
+           
+          </h5>
+        </div>
+         <i class="bi bi-search  ms-2 me-2 text-22" (click)="openModal(modalProcurar)"></i>
+      </div>
+    </div>
+
+    <ul class="nav nav-pills text-muted justify-content-center mb-1 mt-2 bg-light">
+
+      <li class="nav-item ms-0 me-0" *ngFor="let status of statusList">
+        <button class="nav-link d-flex align-items-center gap-1 p-2 pt-1 pb-1 ms-1" [ngClass]="{  'active': status.name === 'Prioritário',
+                'bg-danger text-white': status.name === 'Atrasados',
+                'text-dark': status.name == 'Pendente'
+                 }" (click)="getOrders(status.value)">
+          <i class="bi bi-exclamation-circle ms-1"></i> {{ status.name }}
+        </button>
+      </li>
+    </ul>
+    <!--
+     <ion-row class="p-0 mb-3">
+      <ion-chip *ngFor="let status of statusList" class="m-1" [color]="status.color" (click)="getOrders(status.value)">
+        <ion-label class="p-0">
+          <ion-icon name="hourglass-outline" *ngIf="status.name == 'Pendente'"></ion-icon>
+          <ion-icon name="alert-circle-outline" *ngIf="status.name == 'Atrasado'"></ion-icon>
+          <ion-icon name="flame-outline" *ngIf="status.name == 'Prioritário'"></ion-icon>
+          {{ status.name }}</ion-label>
+
+      </ion-chip>
+    </ion-row>
+    -->
+
+    <div *ngIf="salesOrdersLists && salesOrdersLists.length > 0">
+      <div class="row p-0 m-0" style="font-size: 10px;">
+        <p class="text-center"><strong>Total de Pedidos: {{salesOrdersLists.length}}</strong></p>
+      </div>
+      <div *ngFor="let pedido of salesOrdersLists" [ngClass]="{ 'borda-vermelha': pedido.faltaVol === 1 }" class="card  mb-3 shadow-lg ms-2 me-2">
+        <div class="card-body" (click)="routerCheck(pedido.faltaVol)" [routerLink]="(finishVol.length === 0 || pedido.faltaVol === 1) ? '/pick-item/'+ pedido.docNumDoc + '/' + userID: null" [routerDirection]="'root'">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              
+              <h6 class="fw-bold mb-1 m-0 mb-1"><small  [ngClass]="{ 'bg-warning': pedido?.perfil === 'Y', 'bg-primary': pedido?.perfil != 'Y'  }"
+                  class="bg  ms-1 me-1 p-1 text-white rounded"> 
+                  <span    class="badge m-0 bg-warning fw-semibold" *ngIf="pedido?.perfil === 'Y'" ><i class="bi bi-key" style="font-size: 36 !important;"></i></span>
+                  {{pedido.cardCodeDoc}}</small>{{
+                pedido.cardNameDoc }}</h6>
+              <small class="text-muted">{{ pedido.slpName }}</small>
+
+            </div>
+            <span class="badge m-0 bg-success fw-semibold">{{ pedido.docNumDoc }}</span>
+          </div>
+          <div class="alert alert-warning p-2 mt-3 mb-3 fs-6" role="alert">
+             Tipo de Frete: <strong class="float-end">{{pedido.tipoFrete}}</strong>
+          </div>
+          <div class="row mt-3 text-muted small">
+            <div class="col-4">
+              <strong>Criação:</strong><br />{{ pedido.createDate | date: 'dd/MM/yyyy' }}
+            </div>
+            <div class="col-4">
+              <strong>Liberação:</strong><br />{{ pedido.pickDate | date: 'dd/MM/yyyy' }}
+            </div>
+            <div class="col-4">
+              <strong>Status:</strong><br />
+                <span *ngIf="pedido.faltaVol === 0 && pedido.ordem === 1" class="badge m-0 bg-warning fw-semibold" style="font-size: 16px ;"> <i class="bi bi-fire"></i>Prioridade</span>
+                <span *ngIf="pedido.faltaVol === 0 && pedido.ordem !== 1" class="badge m-0 bg-secondary fw-semibold" style="font-size: 16px ;">Normal</span>
+                <span *ngIf="pedido.faltaVol === 1" class="badge m-0 bg-danger fw-semibold" style="font-size: 16px ;">Criar Volume</span>
+            </div>
+          </div>
+          <div class="alert alert-danger p-0 pt-1 pb-1 mt-3" role="alert" *ngIf="pedido.corte !== 0">
+            <i class="bi bi-scissors ms-2 me-2"></i> Pedido com corte
+          </div>
+        </div>
+      </div>
+    </div>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+      <p style="color: white"> Aguarde... </p>
+    </ngx-spinner>
+  </div>
+  <ng-template #modalProcurar let-modal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header modalElinox">
+          <h4 class="modal-title" id="modal-basic-title">Procurar</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          </button>
+        </div>
+        <div class="modal-body p-1">
+          <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+            <label class="mt-2 mb-2 ms-0"><strong>Digite o número do pedido: </strong></label>
+            <input class="form-control mt-2 mb-2" name="pickingName" [(ngModel)]="pickingReference" />
+            <button class="btn btn-primary" (click)="goOrder()">Procurar</button>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </ng-template>

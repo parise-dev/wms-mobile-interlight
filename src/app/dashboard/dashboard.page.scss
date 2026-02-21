@@ -1,0 +1,130 @@
+.cards-page{
+  min-height: 100vh;
+  background: #f6f7fb !important;
+  padding: 14px;
+}
+
+/* Se estiver dentro de ion-content, o fundo do ion-content manda */
+:host ::ng-deep ion-content{
+  --background: #f6f7fb !important;
+  background: #f6f7fb !important;
+}
+
+.cards-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 12px;
+}
+
+.title{
+  margin: 2px 0 0;
+  font-size: 18px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.muted{
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.cards-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 768px){
+  .cards-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .span-2{ grid-column: span 2; }
+}
+
+@media (min-width: 1200px){
+  .cards-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.card{
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 10px 25px rgba(17,24,39,.06);
+}
+
+.card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 10px;
+}
+
+.card-title{
+  margin:0;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.card-value{
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 950;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.card-sub{
+  margin-top: 6px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.pill{
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+/* Variantes */
+.kpi--highlight{
+  background: linear-gradient(180deg, #ecfdf5, #fff) !important;
+  border-color: #bbf7d0 !important;
+}
+
+.money{ color: #16a34a !important; }
+
+.kpi--danger{
+  background: linear-gradient(180deg, #fef2f2, #fff) !important;
+  border-color: #fecaca !important;
+}
+
+.danger{ color: #dc2626 !important; }
+
+:host ::ng-deep ion-content{
+  --background: #f6f7fb !important;
+  background: #f6f7fb !important;
+}
+.reversa-header{
+  background-color: black;
+  color: #fff;
+  padding: 1.25rem 1rem; /* header maior */
+  z-index: 10;
+}
+
+.reversa-header h3{
+  letter-spacing: .2px;
+}
+
+.reversa-header .bi-arrow-left-circle{
+  font-size: 1.6rem;
+}
+
+.reversa-header .bi-arrow-clockwise{
+  font-size: 1.4rem;
+}

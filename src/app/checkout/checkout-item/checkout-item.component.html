@@ -1,0 +1,161 @@
+<ion-content>
+  <ion-grid style="background-color: black; color: #fff;" class="pt-3 p-0 pb-3">
+    <ion-row class="ps-2 pt-4 pe-0go mb-3">
+
+      <h5 (click)="backHome()">
+        <i class="bi bi-arrow-left-circle ms-2 me-2 text-36" style="font-size: 24px;"></i>
+        Conferência de Volumes
+      </h5>
+    </ion-row>
+    <div class="row ps-2 pe-2">
+      <div class="btn-group" role="group" aria-label="Basic example">
+      </div>
+    </div>
+
+    <!---ATUALIZAR CONFERENCIA-->
+
+  </ion-grid>
+  <p class="m-2 text-10">Pedido: {{itens[0]?.docNumber}}</p>
+  <div class="alert alert-warning m-2 p-2 border text-8">Observação do Pedido: <br>
+    {{itens[0]?.obspedido == '' ? 'Sem comentário': itens[0]?.obspedido }}</div>
+  <div class="alert alert-secondary m-2 p-2 border text-8">Observação da Qualidade: <br> {{itens[0]?.obsqualidade == ''
+    ? 'Não possui': itens[0]?.obsqualidade }}</div>
+
+<div class="alert alert-danger m-2 p-2 border text-8"><strong>Tipo de Frete:</strong> <br> {{itens[0]?.tipoFrete}}</div>
+  
+
+  <h6 class="m-2 mt-4">Aguardando conferência</h6>
+  <div class="card borderx m-2" *ngFor="let it of itens; let i = index">
+    <div class="row mt-3 mb-2">
+      <div class="col-9 ps-4 pe-0" style="font-size: 16px; font-weight: 500;">{{it.description}}</div>
+      <div class="col-3 p-0 m-0 pe-4"><input type="checkbox" [(ngModel)]="itens[i].selected"
+          class="form-check-input form-check-input-sm float-end me-2" />
+      </div>
+    </div>
+    <div class="row">
+      <h6 class="ms-2 mt-1 mb-0 me-2 pt-2"><span class="bg bg-success text-white rounded ps-2 pe-2 me-2 text-10">Código:
+          {{it.itemCode}}</span>
+        <i class="bi bi-camera-fill float-end me-4 mt-0 bg" (click)="openModal(it.docNumber , it.itemCode, modalimagem)"></i>
+        <i class="bi bi-chat-left-text-fill float-end me-4 mt-0" (click)="openModalDefault(modalObservacaoCheckout)"></i>
+      </h6> <!--{{ua.address}}-->
+    </div>
+    <div class="alert alert-danger ms-2 mt-2 me-2 mb-1 border text-8 p-2" role="alert" *ngIf="itens[i]?.selected">
+      Item com Divergência
+    </div>
+    <div class="row">
+
+    </div>
+    <span class="alert alert-warning m-2 p-2 border text-8">Observação vendedor: <br> {{it.obsvendedor}}</span>
+    <span class="alert alert-primary ms-2 me-2 mb-1 mt-1 p-2 border text-8">Observação separação: <br>
+      {{it.obsseparador}}</span>
+    <div class=" m-1 border-top"></div>
+    <div class="row p-2">
+      <div class="col-12 bg bg-elinox">
+        <label class="mb-2 p-0 m-0 " style="font-size: 14px; font-weight: 500;">Peças localizadas</label>
+        <input class="form-control form-control-sm text-12" [name]="'teste' + i" type="number"
+          [(ngModel)]="itens[i].qty" />
+      </div>
+    </div>
+
+  </div>
+
+
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="5000" cssClass="toast-custom-class"
+    (didDismiss)="setOpen(false)">
+  </ion-toast>
+</ion-content>
+<ion-footer>
+  <ion-button expand="block" (click)="conferir()"> Finalizar Conferencia</ion-button>
+  <ion-button color="danger" expand="block" (click)="openReproved(modalReprovacao)"> Reprovar Volume</ion-button>
+</ion-footer>
+
+<ng-template #modalReprovacao let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">Reprovação</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+      </div>
+      <div class="modal-body p-1">
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Selecione o motivo da Reprovação:</strong></label>
+          <select class="form-control form-control-sm" name="orderInObsOrder" [(ngModel)]="reprovedMotived">
+            <option>Quantidade incorreta (a maior);</option>
+            <option>Quantidade incorreta (a menor);</option>            
+            <option>Acabamento incorreto;</option>
+            <option>Liga incorreta;</option>
+            <option>Dimensional incorreto;</option>
+            <option>Faltou o item;</option>
+            <option>Lote incorreto;</option>
+          </select>
+        </div>
+        <!--<div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Destino</strong></label>
+          <select class="form-control form-control-sm" (change)="setDestiny()" name="orderInObsOrder"
+            [(ngModel)]="reprovedDestiny">
+            <option>Estoque (Gaveta)</option>
+            <option>Retornar para pedido</option>
+          </select>
+        </div>
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0" *ngIf="visibleAddress">
+          <label class="mt-2 mb-2 ms-0"><strong>Endereço</strong></label>
+          <input class="form-control form-control-sm" name="orderInObsOrder" [(ngModel)]="addressDestiny" />
+        </div>-->
+
+
+      </div>
+      <div class="modal-footer p-0">
+        <button class="btn btn-sm btn-danger float-end btn-block" (click)="saveReproved()">Concluir Reprovação</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modalimagem let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">Imagens</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+      </div>
+      <div class="modal-body p-1">
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Imagens retiradas: </strong></label>
+          <img *ngFor="let imagem of listaImagens" [src]="imagem.imageBase64" alt="Imagem" />
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="color: white"> Aguarde... </p>
+  </ngx-spinner>
+
+  
+<ng-template #modalObservacaoCheckout let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">Observação de Checkout</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+      </div>
+      <div class="modal-body p-1">
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Informe a Observação necessária:</strong></label>
+          <textarea class="form-control form-control-sm" rows="4" name="text" [(ngModel)]="obsConferente"></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer p-0">
+        <button class="btn btn-sm btn-primary float-end " (click)="saveObsCheckout()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,297 @@
+/* ------------------------------ */
+/* Tipografia e texto             */
+/* ------------------------------ */
+.text-10-e {
+  font-size: 14px !important;
+}
+
+.text-12 {
+  font-size: 0.85rem !important;
+}
+
+/* ------------------------------ */
+/* Cores e botões principais      */
+/* ------------------------------ */
+.btn-primary {
+  background-color: black !important;
+  border-color: black !important;
+}
+
+.bg-blue {
+  border-radius: 8px;
+  border: 1px solid #0b0b80 !important;
+}
+
+/* ------------------------------ */
+/* Layout geral e responsividade  */
+/* ------------------------------ */
+html,
+body,
+ion-app,
+ion-router-outlet,
+ion-content {
+  height: 100%;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto; /* garante rolagem */
+  background: rgba(244, 244, 244, 0.263);
+}
+
+/* ------------------------------ */
+/* Header (mantendo cor original) */
+/* ------------------------------ */
+.header-title {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.header-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.bi-arrow-left-circle {
+  font-size: 1.4rem !important;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.bi-arrow-left-circle:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+/* ------------------------------ */
+/* Vídeo e mídia                  */
+/* ------------------------------ */
+.video-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+video {
+  width: 100%;
+  max-height: 300px;
+  border-radius: 6px;
+  background: black;
+}
+
+/* ------------------------------ */
+/* Cards e interações             */
+/* ------------------------------ */
+.hover-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-modern {
+  display: grid;
+  gap: 1rem;
+}
+.list-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+}
+.list-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.lbl {
+  font-weight: 600;
+  color: #394b5a;
+}
+
+/* ------------------------------ */
+/* Banners e informações          */
+/* ------------------------------ */
+.item-banner {
+  background: #39B4E2;
+  color: #fff;
+  padding: 1rem 0 1.25rem;
+  border-radius: 0;
+}
+.item-banner.warning {
+  background: #f4a460;
+}
+.item-banner .lbl {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+.item-banner .pill {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+}
+.item-banner .pill-info {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* ------------------------------ */
+/* Inputs e formulários           */
+/* ------------------------------ */
+input.form-control-sm,
+select.form-control-sm,
+textarea.form-control-sm {
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 0.2rem rgba(57, 180, 226, 0.3);
+  border-color: #39B4E2;
+}
+
+/* ------------------------------ */
+/* Toast e spinner                */
+/* ------------------------------ */
+.toast-custom-class {
+  color: red;
+}
+
+.loading-box {
+  min-height: 40vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+ngx-spinner {
+  z-index: 11000 !important;
+}
+
+/* ------------------------------ */
+/* Modal e backdrop               */
+/* ------------------------------ */
+.modal {
+  z-index: 11050 !important;
+}
+.modal-backdrop {
+  z-index: 11000 !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Garante que modais fiquem sobre overlays Ionic */
+.modal.show {
+  z-index: 11060 !important;
+}
+
+/* Corrige bug do modal "apagado" (plano de fundo) */
+.modal.fade.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ------------------------------ */
+/* Modal interno de ajuste        */
+/* ------------------------------ */
+.modal-ajuste .modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+.modal-ajuste .modal-header {
+  background: #39B4E2;
+  color: #fff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.modal-ajuste .btn-novo-lote {
+  border: 1px dashed #39B4E2;
+  background: rgba(57, 180, 226, 0.08);
+  color: #39B4E2;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+.modal-ajuste .btn-novo-lote:hover {
+  background: #39B4E2;
+  color: #fff;
+}
+
+/* ------------------------------ */
+/* Borda tracejada vermelha       */
+/* ------------------------------ */
+.border-dashed {
+  border: 2px dashed #dc3545;
+  border-radius: 8px;
+}
+
+/* ------------------------------ */
+/* Responsividade                 */
+/* ------------------------------ */
+@media (min-width: 768px) {
+  .header-title {
+    font-size: 1.3rem;
+  }
+  .list-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .bi-arrow-left-circle {
+    font-size: 1.8rem !important;
+  }
+  .header-title {
+    font-size: 1.6rem;
+  }
+}
+/* Modal de foto: ocupa bem a tela e deixa conteúdo rolar */
+.modal-foto {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-foto-body {
+  overflow-y: auto;
+  max-height: calc(90vh - 120px); /* ajusta considerando header + footer */
+  padding: 1rem 1rem 0.75rem;
+}
+
+.modal-foto-footer {
+  border-top: none;
+  padding: 0.75rem 1rem 1rem;
+}
+
+/* lista de imagens dentro do modal */
+.image-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.image-item {
+  border-radius: 8px;
+  background: #f7f8fa;
+  padding: 0.5rem;
+}
+
+.captured-image {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+

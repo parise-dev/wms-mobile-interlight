@@ -1,0 +1,258 @@
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p class="spinner-text">Aguarde carregando...</p>
+</ngx-spinner>
+
+<ion-content class="page">
+
+  
+  <div class="reversa-header sticky-top">
+    <div class="d-flex align-items-center justify-content-between">
+     
+      <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backHome()">
+        <i class="bi bi-arrow-left-circle ms-1"></i>
+      </button>
+
+      
+      <div class="flex-grow-1 text-center">
+        <h3 class="m-0 fw-bold">#VIAGEM {{ id }}</h3>
+      </div>
+
+    
+      <button class="btn btn-link text-white p-0 d-flex align-items-center" aria-label="Atualizar">
+        <i class="bi bi-arrow-clockwise fs-4"></i>
+      </button>
+    </div>
+  </div>
+
+
+
+  
+    <section class="card ms-2 me-2 mt-3">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Bipar volume</div>
+          <div class="card-subtitle">Digite ou use o leitor de código de barras</div>
+        </div>
+
+        <button class="link-danger" type="button" (click)="clear()">Limpar</button>
+      </div>
+
+      <div class="input-row">
+        <input
+          #meuInput
+          class="input"
+          type="text"
+          placeholder="Número do volume"
+          name="keyD"
+          [(ngModel)]="volumeBip"
+          (keyup.enter)="confirmeOk()"
+          autocomplete="off"
+          autocapitalize="characters"
+        />
+
+        <button class="btn" type="button" (click)="confirmeOk()">OK</button>
+      </div>
+
+      <small class="hint">Pressione <b>Enter</b> após o scan para agilizar.</small>
+    </section>
+
+   
+    <div class="section-head ms-2 me-2">
+      <h6 class="section-title ms-2">Volumes atribuídos à viagem</h6>
+      <span class="section-count me-2" *ngIf="viagem?.length">{{ viagem.length }}</span>
+    </div>
+
+    <div class="empty" *ngIf="viagem?.length === 0">
+      <i class="bi bi-inbox"></i>
+      <div>
+        <div class="empty-title">Nenhum volume encontrado</div>
+        <div class="empty-sub">Tente bipar um volume ou atualizar.</div>
+      </div>
+    </div>
+
+    <a
+      class="vol-card"
+      *ngFor="let p of viagem; let i = index"
+      (click)="marked(i)"
+      [routerLink]="'expedit/' + p.pack"
+      [class.loaded]="p.carregado === p.itens"
+      [class.has-obs]="hasObs(p)"
+    >
+      <div class="vol-top ms-2 me-2">
+        <div class="vol-code">{{ formatVol(p.pack) }}</div>
+
+        <span class="status-pill">
+          {{ checkStatus(p) }}
+        </span>
+      </div>
+
+      <div class="chips">
+        <span class="chip chip-dark">Pedido: {{ p.pedidos ?? '000000' }}</span>
+        <span class="chip chip-warn">Embalagem: {{ p.embalagem ?? 'AM' }}</span>
+        <span class="chip chip-muted">{{ p.createDate | date:'dd/MM/yyyy' }}</span>
+        <span class="chip chip-info">Separador: {{ p.userName }}</span>
+        <span class="chip chip-danger">Local: {{ p.destiny }}</span>
+      </div>
+
+      <div class="obs-highlight" *ngIf="hasObs(p)">
+        <div class="obs-left">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+        <div class="obs-body">
+          <div class="obs-title">OBSERVAÇÕES</div>
+          <div class="obs-text">{{ getObs(p) }}</div>
+        </div>
+      </div>
+
+      <div class="chevron">
+        <i class="bi bi-chevron-right"></i>
+      </div>
+    </a>
+
+  </ion-content>
+
+ 
+<ion-footer class="footer" *ngIf="canFinishTrip()">
+  <ion-button expand="block" (click)="sendEnvioPacking()">
+    CONCLUIR VIAGEM
+  </ion-button>
+</ion-footer>
+
+
+<ion-toast
+  [isOpen]="isToastOpen"
+  [message]="messageToast"
+  [duration]="5000"
+  cssClass="toast-custom-class"
+  (didDismiss)="setOpen(false)">
+</ion-toast>
+
+
+-->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p class="spinner-text">Aguarde carregando...</p>
+</ngx-spinner>
+
+<!-- ✅ APENAS 1 ion-content (sem duplicação) -->
+<ion-content class="page">
+
+  <!-- TOPBAR -->
+  <div class="reversa-header sticky-top">
+    <div class="d-flex align-items-center justify-content-between">
+      <!-- Voltar -->
+      <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backHome()">
+        <i class="bi bi-arrow-left-circle ms-1"></i>
+      </button>
+
+      <!-- Título central -->
+      <div class="flex-grow-1 text-center">
+        <h3 class="m-0 fw-bold">#VIAGEM {{ id }}</h3>
+      </div>
+
+      <!-- Ação direita (refresh) -->
+      <button class="btn btn-link text-white p-0 d-flex align-items-center" aria-label="Atualizar">
+        <i class="bi bi-arrow-clockwise fs-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- BUSCA / SCAN -->
+  <section class="card ms-2 me-2 mt-3">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Bipar volume</div>
+        <div class="card-subtitle">Digite ou use o leitor de código de barras</div>
+      </div>
+
+      <button class="link-danger" type="button" (click)="clear()">Limpar</button>
+    </div>
+
+    <div class="input-row">
+      <input
+        #meuInput
+        class="input"
+        type="text"
+        placeholder="Número do volume"
+        name="keyD"
+        [(ngModel)]="volumeBip"
+        (keyup.enter)="confirmeOk()"
+        autocomplete="off"
+        autocapitalize="characters"
+      />
+
+      <button class="btn" type="button" (click)="confirmeOk()">OK</button>
+    </div>
+
+    <small class="hint">Pressione <b>Enter</b> após o scan para agilizar.</small>
+  </section>
+
+  <!-- LISTA -->
+  <div class="section-head ms-2 me-2">
+    <h6 class="section-title ms-2">Volumes atribuídos à viagem</h6>
+    <span class="section-count me-2" *ngIf="viagem?.length">{{ viagem.length }}</span>
+  </div>
+
+  <div class="empty ms-2 me-2" *ngIf="viagem?.length === 0">
+    <i class="bi bi-inbox"></i>
+    <div>
+      <div class="empty-title">Nenhum volume encontrado</div>
+      <div class="empty-sub">Tente bipar um volume ou atualizar.</div>
+    </div>
+  </div>
+
+  <a
+    class="vol-card ms-2 me-2"
+    *ngFor="let p of viagem; let i = index"
+    (click)="marked(i)"
+    [routerLink]="'expedit/' + p.pack"
+    [class.loaded]="p.carregado === p.itens"
+    [class.has-obs]="hasObs(p)"
+  >
+    <div class="vol-top">
+      <div class="vol-code">{{ formatVol(p.pack) }}</div>
+
+      <span class="status-pill">
+        {{ checkStatus(p) }}
+      </span>
+    </div>
+
+    <div class="chips">
+      <span class="chip chip-dark">Pedido: {{ p.pedidos ?? '000000' }}</span>
+      <span class="chip chip-warn">Embalagem: {{ p.embalagem ?? 'AM' }}</span>
+      <span class="chip chip-muted">{{ p.createDate | date:'dd/MM/yyyy' }}</span>
+      <span class="chip chip-info">Separador: {{ p.userName }}</span>
+      <span class="chip chip-danger">Local: {{ p.destiny }}</span>
+    </div>
+
+    <div class="obs-highlight" *ngIf="hasObs(p)">
+      <div class="obs-left">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+      </div>
+      <div class="obs-body">
+        <div class="obs-title">OBSERVAÇÕES</div>
+        <div class="obs-text">{{ getObs(p) }}</div>
+      </div>
+    </div>
+
+    <div class="chevron">
+      <i class="bi bi-chevron-right"></i>
+    </div>
+  </a>
+<div class="footer-fixed" slot="fixed"  *ngIf="canFinishTrip()">
+  <ion-button expand="block" (click)="sendEnvioPacking()">
+    CONCLUIR VIAGEM
+  </ion-button>
+</div>
+</ion-content>
+
+
+
+
+<ion-toast
+  [isOpen]="isToastOpen"
+  [message]="messageToast"
+  [duration]="5000"
+  cssClass="toast-custom-class"
+  (didDismiss)="setOpen(false)">
+</ion-toast>

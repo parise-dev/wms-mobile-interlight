@@ -1,0 +1,250 @@
+<!-- ===== HEADER (PADRÃO INTERIOR) ===== -->
+<div class="reversa-header sticky-top">
+  <div class="d-flex align-items-center justify-content-between">
+    <!-- Voltar -->
+    <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backHome()">
+      <i class="bi bi-arrow-left-circle ms-1"></i>
+    </button>
+
+    <!-- Título central -->
+    <div class="flex-grow-1 text-center">
+      <h3 class="m-0 fw-bold">Visitas aguardando</h3>
+    </div>
+
+    <!-- Ação direita (refresh) -->
+    <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="loadDrivers()"
+      aria-label="Atualizar">
+      <i class="bi bi-arrow-clockwise fs-4"></i>
+    </button>
+  </div>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<main class="page-wrapper">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando motoristas...
+  </div>
+
+  <!-- Sem resultados -->
+  <div *ngIf="!loading && drivers.length === 0" class="empty-state">
+    Nenhum motorista encontrado para hoje.
+  </div>
+
+  <!-- Lista de motoristas -->
+  <section class="list-section" *ngIf="!loading">
+    <div class="drivers-list">
+
+      <!-- CARD -->
+      <button class="driver-card" *ngFor="let driver of drivers" (click)="openModal(driver)" type="button">
+        <!-- Bolinha status (verde piscando se pendente > 0, senão vermelho) -->
+        <span class="status-dot" [ngClass]="driver.nFPendente === 0 ? 'dot-green blink' : 'dot-red'"
+          [attr.title]="driver.nFPendente > 0 ? (driver.nFPendente + ' NF(s) pendente(s)') : 'Sem pendências'"></span>
+
+        <!-- Avatar -->
+        <div class="driver-avatar">
+          {{ driver.name?.charAt(0) | uppercase }}
+        </div>
+
+        <!-- Informações -->
+        <div class="driver-info">
+          <div class="driver-name">{{ driver.name }}</div>
+
+          <!-- Última visita -->
+          <div class="driver-visit">
+            Visita nº <strong>{{ driver.idEntry }}</strong><br>
+           <div class="checker-line">
+  <i class="bi bi-truck me-1"></i>
+  <span class="carrier">{{ driver.carrier }}</span>
+
+  <span *ngIf="driver.checkerName" class="sep">·</span>
+
+ 
+  <span *ngIf="driver.checkerName" class="checker-name">
+     <i *ngIf="driver.checkerName" class="bi bi-person-badge me-1"></i>
+     {{ driver.checkerName }}</span>
+
+  <!-- STATUS PEQUENO AO LADO -->
+  <span
+    class="status-mini"
+    [ngClass]="getStatusClass(driver.status)"
+    [attr.title]="driver.status"
+  >
+    {{ driver.status }}
+  </span>
+</div>
+          </div>
+        </div>
+
+        <!-- Lateral direita: tempo + seta -->
+        <div class="driver-right">
+          <!-- Tempo desde entry (ex: 35 min) -->
+       <div class="driver-time driver-time--big" *ngIf="driver.entry">
+  <i class="bi bi-clock me-1"></i>
+  <span>{{ getElapsedTime(driver.entry) }}</span>
+</div>
+          <!-- Seta -->
+          <div class="driver-action">
+            <i class="bi bi-chevron-right"></i>
+          </div>
+        </div>
+
+      </button>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== MODAL (PADRÃO INTERIOR) ===== -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal-container">
+
+    <!-- Header do modal -->
+    <header class="modal-header">
+      <div class="modal-header-text">
+        <h3 class="modal-title">Confirmar carregamento</h3>
+        <p class="modal-subtitle">
+          Motorista: <strong>{{ selectedDriver?.name }}</strong> ·
+          Visita nº <strong>{{ selectedDriver?.idEntry }}</strong>
+        </p>
+      </div>
+
+      <button class="modal-close" type="button" aria-label="Fechar" (click)="closeModal()">
+        &times;
+      </button>
+    </header>
+
+    <!-- Body -->
+    <main class="modal-body">
+
+      <!-- Campo doca -->
+      <div class="field-block">
+        <label class="field-label">Informe a doca de carregamento</label>
+        <input type="text" class="field-input" [(ngModel)]="dock" placeholder="Ex: Doca 03" />
+        <div class="field-helper" *ngIf="dock && dock.length < 2">
+          Informe uma doca válida.
+        </div>
+      </div>
+
+      <!-- Tabela de viagens -->
+      <div class="table-wrap mt-3">
+        <div class="table-title">
+          Viagens do motorista
+          <span class="table-count" *ngIf="travels.length">
+            ({{ travels?.length }})
+          </span>
+        </div>
+
+        <div class="table-responsive clean-table" *ngIf="travels.length > 0; else noTravels">
+          <table class="table table-sm align-middle mb-0">
+            <thead>
+              <tr>
+                <th style="width: 45px;">ID</th>
+                <th style="width: 45px;">Pedido</th>
+                <th>Nome</th>
+                <th class="text-end" style="width: 120px;">Nota fiscal</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let t of travels" class="row-clickable">
+                <td class="mono">{{ t?.id }}</td>
+                <td class="mono">{{ t?.docNum }}</td>
+                <td>
+                  <div class="travel-name">{{ t?.name }}</div>
+                  <div class="travel-sub" *ngIf="t?.cardName">{{ t?.cardName }}</div>
+                </td>
+                <td class="text-end">
+                  <span class="badge bg-warning text-dark" *ngIf="(t?.nf ?? 0) == 0">PENDENTE</span>
+                  <span class="badge bg-success" *ngIf="(t?.nf ?? 0) != 0">GERADA</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <ng-template #noTravels>
+          <div class="empty-inline">
+            Nenhuma viagem vinculada a este motorista.
+          </div>
+        </ng-template>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="modal-footer d-flex gap-2 justify-content-end">
+
+      <button class="btn btn-secondary" type="button" (click)="closeModal()">
+        Cancelar
+      </button>
+
+      <!-- NOVO: Assumir -->
+      <button class="btn btn-warning" type="button" (click)="assumir()">
+        Assumir
+      </button>
+
+      <button class="btn btn-primary" type="button" [disabled]="!dock" (click)="confirmLoading()">
+        Confirmar
+      </button>
+      <button class="btn btn-danger" type="button" (click)="openJustificationModal()">
+        MOTORISTA NÃO VAI ESPERAR
+      </button>
+
+
+    </footer>
+
+  </div>
+</div>
+
+<!-- ===== MODAL JUSTIFICATIVA ===== -->
+<div class="modal-backdrop" *ngIf="showJustificationModal">
+  <div class="modal-container">
+
+    <!-- Header -->
+    <header class="modal-header">
+      <div class="modal-header-text">
+        <h3 class="modal-title">Motorista não vai esperar</h3>
+        <p class="modal-subtitle">
+          Informe o motivo da saída do motorista
+        </p>
+      </div>
+
+      <button class="modal-close" type="button" (click)="closeJustificationModal()">
+        &times;
+      </button>
+    </header>
+
+    <!-- Body -->
+    <main class="modal-body">
+
+      <div class="field-block">
+        <label class="field-label">Justificativa</label>
+        <textarea class="form-control" rows="4" [(ngModel)]="justification"
+          placeholder="Descreva o motivo..."></textarea>
+
+        <div class="field-helper" *ngIf="justification && justification.length < 5">
+          A justificativa deve ter pelo menos 5 caracteres.
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="modal-footer d-flex gap-2 justify-content-end">
+
+      <button class="btn btn-secondary" type="button" (click)="closeJustificationModal()">
+        Cancelar
+      </button>
+
+      <button class="btn btn-danger" type="button" [disabled]="!justification || justification.length < 5"
+        (click)="confirmJustification()">
+        Confirmar
+      </button>
+
+    </footer>
+
+  </div>
+</div>

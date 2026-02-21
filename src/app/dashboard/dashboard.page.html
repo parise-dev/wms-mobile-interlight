@@ -1,0 +1,56 @@
+  <ion-content class="m-0">
+
+    <div class="reversa-header sticky-top">
+      <div class="d-flex align-items-center justify-content-between">
+        <button class="btn btn-link text-white p-0 d-flex align-items-center" (click)="backToDocument()">
+          <i class="bi bi-arrow-left-circle ms-1"></i>
+        </button>
+
+        <div class="flex-grow-1 text-center">
+          <h3 class="m-0 fw-bold">Diretoria Interlight</h3>
+        </div>
+
+        <button class="btn btn-link text-white p-0 d-flex align-items-center" [disabled]="loading" (click)="reload()" aria-label="Atualizar">
+          <i class="bi bi-arrow-clockwise fs-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="cards-page">
+      <div class="cards-header">
+        <div>
+          <small class="muted">Dashboard</small>
+          <h2 class="title">Resumo</h2>
+        </div>
+
+    
+      </div>
+
+      <div class="cards-grid">
+        <ng-container *ngFor="let c of cards">
+          <div class="card kpi"
+               [class.kpi--highlight]="c.tone === 'highlight'"
+               [class.kpi--danger]="c.tone === 'danger'"
+               [class.span-2]="c.key === 'onePercent'">
+
+            <div class="card-top">
+              <p class="card-title">{{ c.title }}</p>
+              <span class="pill" *ngIf="c.pill">{{ c.pill }}</span>
+            </div>
+
+            <div class="card-value"
+                 [class.money]="c.valueType === 'money'"
+                 [class.danger]="c.tone === 'danger'">
+              {{ formatValue(c) }}
+            </div>
+
+            <div class="card-sub" *ngIf="c.descriptionLabel">
+              {{ c.descriptionLabel }}: {{ formatDescription(c) }}
+            </div>
+
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+  </ion-content>

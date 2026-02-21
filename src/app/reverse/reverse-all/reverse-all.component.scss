@@ -1,0 +1,62 @@
+/* Tipografia mais moderna (sem baixar fonte): */
+:root {
+  --font-ui: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+.app-shell { font-family: var(--font-ui); background: rgba(244,244,244,.263); }
+
+/* Header: mantém seu fundo (bg-elinox). Melhoramos títulos e ícones */
+.header-title {
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+.header-subtitle {
+  color: rgba(255,255,255,.85);
+  font-size: .95rem;
+}
+
+/* Ícone maior em telas grandes, confortável no mobile */
+.header-icon { font-size: 1.75rem; line-height: 1; }
+@media (min-width: 992px) {
+  .header-icon { font-size: 2rem; }
+}
+
+/* Card dos volumes: layout consistente, sombras melhores, foco acessível */
+.volume-card {
+  text-decoration: none;
+  border-radius: 16px;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .2s ease;
+  background: #fff;
+
+  &:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.08); }
+  &:focus-visible { outline: 0; box-shadow: 0 0 0 .28rem rgba(57,180,226,.35); }
+}
+
+/* Ponto de status */
+.status-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  display: inline-block;
+}
+
+/* Footer fixo sem Ionic */
+.elinox-footer {
+  position: sticky; /* gruda no fim; troca para fixed se preferir sempre visível */
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid rgba(0,0,0,.06);
+  padding: .6rem 0;
+  z-index: 1030;
+}
+
+/* Utilitários de cores “subtle” (para Bootstrap < 5.3, caso não tenha) */
+.bg-success-subtle { background: #e8f5ea !important; }
+.text-success-emphasis { color: #1f7a36 !important; }
+.reversa-header {
+    background-color: black;
+  color: #fff;
+  padding: 1.25rem 1rem; /* header maior */
+
+  .bi-arrow-left-circle { font-size: 1.5rem; }
+  h3 { letter-spacing: .2px; }
+  .header-back { font-weight: 600; }
+}

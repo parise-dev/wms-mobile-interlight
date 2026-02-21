@@ -1,0 +1,325 @@
+:host {
+  --brand: black;
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #101828;
+  --muted: #667085;
+  --border: rgba(16, 24, 40, 0.10);
+  display: block;
+}
+
+/* ===================== SPINNER ===================== */
+.spinner-text {
+  color: #fff;
+  margin: 0;
+  text-align: center;
+}
+
+/* ===================== ION CONTENT ===================== */
+/* padding correto para footer fixo */
+
+/* ===================== HEADER ===================== */
+.reversa-header {
+  background-color: black;
+  color: #fff;
+  padding: 1.25rem 1rem;
+  z-index: 10;
+}
+
+.reversa-header h3 {
+  letter-spacing: .2px;
+}
+
+.reversa-header .bi-arrow-left-circle {
+  font-size: 1.6rem;
+}
+
+.reversa-header .bi-arrow-clockwise {
+  font-size: 1.4rem;
+}
+
+/* ===================== CARD ===================== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 8px 18px rgba(16, 24, 40, 0.06);
+}
+
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-weight: 950;
+  color: var(--text);
+}
+
+.card-subtitle {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.link-danger {
+  border: 0;
+  background: transparent;
+  color: #d92d20;
+  font-weight: 900;
+}
+
+/* ===================== INPUT ===================== */
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: rgba(57, 180, 226, 0.55);
+  box-shadow: 0 0 0 4px rgba(57, 180, 226, 0.16);
+}
+
+.btn {
+  border: 0;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 950;
+  border-radius: 12px;
+  padding: 0 14px;
+  height: 44px;
+}
+
+.hint {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ===================== SECTION ===================== */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 14px 2px 10px;
+}
+
+.section-title {
+  margin: 0;
+  font-weight: 950;
+  color: var(--text);
+}
+
+.section-count {
+  font-size: 12px;
+  font-weight: 950;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(16, 24, 40, 0.06);
+  color: #344054;
+}
+
+/* ===================== EMPTY ===================== */
+.empty {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px dashed var(--border);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--muted);
+}
+
+.empty i {
+  font-size: 20px;
+  margin-top: 2px;
+}
+
+.empty-title {
+  font-weight: 950;
+  color: var(--text);
+}
+
+.empty-sub {
+  font-size: 12px;
+}
+
+/* ===================== VOL CARD ===================== */
+.vol-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 6px 14px rgba(16, 24, 40, 0.05);
+  color: var(--text);
+}
+
+.vol-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.vol-code {
+  font-weight: 950;
+  font-size: 16px;
+}
+
+/* ===================== STATUS ===================== */
+.status-pill {
+  background: #FED7AA;
+  color: #F97316;
+  border: 1px solid #FDBA74;
+  font-weight: 950;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* ===================== CHIPS ===================== */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.chip {
+  font-size: 12px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.chip-dark { background: rgba(16, 24, 40, 0.08); }
+.chip-warn { background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.25); }
+.chip-muted { background: rgba(102, 112, 133, 0.10); color: #344054; }
+.chip-info { background: rgba(59, 130, 246, 0.14); border-color: rgba(59, 130, 246, 0.20); }
+.chip-danger { background: rgba(220, 38, 38, 0.14); border-color: rgba(220, 38, 38, 0.20); }
+
+/* ===================== OBS ===================== */
+.obs-highlight {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.18),
+    rgba(245, 158, 11, 0.08)
+  );
+}
+
+.obs-left {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(245, 158, 11, 0.22);
+  color: #7a4a00;
+}
+
+.obs-title {
+  font-weight: 950;
+  letter-spacing: 0.6px;
+  font-size: 12px;
+  color: #7a4a00;
+}
+
+.obs-text {
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 900;
+  color: #3b2a00;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+/* ===================== CHEVRON ===================== */
+.chevron {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  color: #98a2b3;
+}
+
+/* ===================== LOADED ===================== */
+.vol-card.loaded {
+  border: 2px dashed rgba(57, 180, 226, 0.95);
+  background: rgba(57, 180, 226, 0.06);
+  box-shadow: 0 10px 22px rgba(57, 180, 226, 0.18);
+}
+
+.vol-card.loaded .vol-code {
+  color: #0b5d7a;
+}
+
+.vol-card.loaded .status-pill {
+  background: rgba(57, 180, 226, 0.22);
+  border-color: rgba(57, 180, 226, 0.40);
+  color: #0b5d7a;
+}
+
+.vol-card.loaded .chip {
+  border-color: rgba(57, 180, 226, 0.25);
+}
+
+/* ===================== FOOTER ===================== */
+ion-footer.footer {
+  --background: #fff;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 10px 14px calc(14px + env(safe-area-inset-bottom));
+}
+
+ion-footer.footer ion-button {
+  height: 48px;
+  font-weight: 950;
+}
+.footer-fixed{
+  position: absolute;           /* dentro do ion-content */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 14px calc(14px + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1px solid var(--border);
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+/* garante que o conteúdo não fique atrás do footer */
+ion-content.page{
+  --padding-bottom: 130px;
+}

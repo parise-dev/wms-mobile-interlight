@@ -1,0 +1,275 @@
+<div class="min-vh-100 d-flex flex-column pb-4" style="overflow: auto !important;">
+  <!-- Header -->
+  <div class="bg-elinox">
+    <div class="bg-elinox text-white px-4 py-4 m-0 d-flex justify-content-between align-items-center">
+      <img src="assets/elinox.png" style="height: 38px;" [routerLink]="'/picking'" [routerDirection]="'root'"/>
+      <div class="d-flex bg-elinox align-items-center mt-4">
+        <h5 class="fw-bold text-white m-0 mb-2">Separação
+          <i (click)="reload()" class="bi bi-arrow-clockwise ms-3 text-22 float-end"></i>
+        </h5>
+
+
+      </div>
+    </div>
+
+    <!--<div class="alert alert-info ms-1 me-1 mt-0 text-8" style="font-size: 10px;" role="alert">
+      87076
+    </div>-->
+    <!-- Nav Tabs -->
+    <ul class="nav nav-tabs ms-1 me-1" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active  p-2" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+          role="tab" aria-controls="home" aria-selected="true">
+          <i class="bi bi-basket3 ms-1 me-1"></i>
+          Itens
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" class="p-0">  
+        <button class="nav-link p-2" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+          role="tab" aria-controls="profile" aria-selected="false">
+          <i class="bi bi-boxes ms-1 me-1"></i>
+          Volume
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" class="p-0">
+        <button class="nav-link  p-2" id="profile-tab" data-bs-toggle="tab" data-bs-target="#printers" type="button"
+          role="tab" aria-controls="printers" aria-selected="false">
+          <i class="bi bi-boxes ms-1 me-1"></i>
+          Impressão
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" class="p-0">
+        <button class="nav-link  p-2" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+          role="tab" aria-controls="contact" aria-selected="false">
+          <i class="bi bi-chat-left-text ms-1 me-1"></i> Chat
+        </button>
+      </li>
+    </ul>
+
+    <!-- Conteúdo das Abas -->
+
+
+  </div>
+  <div class="tab-content p-3 border border-top-0" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div *ngFor="let pedido of pickingList" class="card mb-3 shadow-lg mt-2 ms-2 me-2"
+        [routerLink]="'/pick-item/detail/'+ pedido.absEntry + '/' + pedido.orderLine + '/' + pedido.objType" [routerDirection]="'root'">
+        <!--[routerLink]="'/volumes/id/' + pickingList[0]?.absEntry"-->
+        <div class="card-body">
+
+          <div class="row">
+            <h6 class="fw-bold mb-0 me-2 mb-2"><small class="bg bg-success pt-1 pb-1 ps-2 pe-2 text-white mt-2 mb-2 rounded me-2 ">{{pedido.itemCode}}</small>{{ pedido.dscription }}</h6>
+            <!--<small class="text-muted">{{ pedido.vendedor }}</small>-->
+          </div>
+
+          <div class="row">
+            <p class="text-muted mb-1 mt-0" style="font-size: 14px !important;"> {{pedido.cardName}}
+              <span class="badge bg-success ms-2 float-end" *ngIf="pedido.pickStatusLine === 'I'">INCREMENTO</span>
+              <span class="badge bg-danger ms-2 float-end" *ngIf="pedido.pickStatusLine === 'Y'">SEPARADO</span>
+              <span class="badge bg-primary ms-2 float-end" *ngIf="pedido.pickStatusLine === 'N'">PENDENTE</span>
+            </p>
+          </div>
+          <div class="alert alert-warning p-2 mt-3 mb-3 fs-6" role="alert" *ngIf="pedido.factor != 1">
+           ⚠️ Atenção, Item com fator unidade. 
+          </div>
+          <div class="row mt-3 text-muted small">
+            <div class="col-5">
+              <strong>Endereço:</strong><br />{{ pedido.address }}
+            </div>
+            <div class="col-4">
+              <strong>Qtde:</strong><br />{{ pedido.quantity }}
+            </div>
+            <div class="col-3">
+              <strong>U.M:</strong><br />{{ pedido.umv }}
+            </div>
+          </div>
+            <div class="alert alert-danger p-0 pt-1 pb-1 mt-3" role="alert" *ngIf="pedido.destiny == 'Corte de barra'">
+            <i class="bi bi-scissors ms-2 me-2"></i> Destino do material - corte
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="row p-0">
+        <div class="col-6 p-0 m-0">
+          <div class="row ps-3 pe-3">
+            <button type="button" class="btn btn-info float-end ms-1"  (click)="printer()"> <i
+              class="bi bi-plus-square-fill"></i>&nbsp;
+            Imprimir</button>
+          </div>
+         
+        </div>
+        <div class="col-6 p-0 m-0">
+          <div class="row ps-3 pe-3">
+
+          <button type="button" class="btn btn-primary float-end ms-1 me-3" (click)="addUrlNewPage()"> <i
+              class="bi bi-plus-square-fill"></i>&nbsp;
+            Adicionar</button>
+          </div>
+        </div>
+
+      </div>
+
+      <hr>
+      <div class="p-0 mb-1 ms-0 me-0 mt-4" *ngFor="let v of volumes; let i = index">
+        <ul class="list-group">
+          <li
+            class="list-group-item list-group-item-action shadow-lg d-flex justify-content-between align-items-start p-3">
+            <input type="checkbox" class="form-check-input" style="font-size: 24px;" [name]="'vol' + i"
+              [(ngModel)]="volumes[i].selected" />
+            <div class="ms-1 me-auto me-0" (click)="openObsOrder(modalVolViewer, v.id, 'md')">
+              <div class="fw-bold" style="font-size: 20px;">{{formatName(v.id)}}</div>
+              Criado {{v.createDate | date: 'dd/MM/yyyy'}} por: {{v.username}} <hr>
+              <strong>Pacote: {{v.package_Name}}</strong>
+            </div>
+            <span class="badge bg-primary rounded-pill" *ngIf="v.status == 'EM PREPARAÇÃO'">{{v.status}}</span>
+            <span class="badge bg-danger rounded-pill" *ngIf="v.status == 'CANCELADO'">{{v.status}}</span>
+          </li>
+
+        </ul>
+      </div>
+      <div class="row ps-3 pe-3 mt-4">
+        <button type="button" class="btn btn-danger float-end pe-3 ps-3" (click)="cancelarVolume()"> <i
+            class="bi bi-plus-square-fill"></i>&nbsp;
+          CANCELAR</button>
+      </div>
+
+    </div>
+    <div class="alert alert-primary ps-2 pe-2 mt-2 pt-3 pb-3" role="alert" *ngIf="false">
+      Nenhum volume criado
+    </div>
+
+    
+    <div class="tab-pane fade" id="printers" role="tabpanel" aria-labelledby="printers-tab">
+      <div class="card p-4 mt-3">
+        <label for="textAreaLocal" class="m-2">Impressoras ativas</label>
+        <select id="textAreaLocal" class="form-control form-control-sm" name="ipPrinters" [(ngModel)]="ipPrinters">
+          <option value="192.168.11.231">ELXETIQ-01</option>
+          <option value="192.168.11.232">ELXETIQ-02</option>
+          <option value="192.168.11.233">ELXETIQ-03</option>
+          <option value="192.168.11.234">ELXETIQ-04</option>
+          <option value="192.168.10.142">ELXETIQ-05</option>
+          <option value="192.168.11.235">ELXETIQ-06</option>
+          <option value="192.168.11.236">ELXETIQ-07</option>
+          <option value="192.168.10.145">ELXETIQ-08</option>
+          <option value="192.168.11.237">ELXETIQ-09</option>
+          <option value="192.168.11.240">ELXETIQ-10</option>
+          <option value="192.168.11.238">ELXETIQ-11</option>
+          <option value="192.168.11.239">ELXETIQ-12</option>
+          <option value="192.168.11.118">TI-HELDER</option>
+        </select>
+
+        <button class="btn btn-primary mt-4" (click)="setImpressora()">Confirmar impressora</button>
+    </div>
+    <div class="row">
+     
+    </div>
+    </div>
+
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      <div class="alert alert-danger" role="alert">
+        <h4>
+          <i class="bi bi-exclamation-circle ms-1"></i>
+          Acesso Negado
+        </h4>
+        <div class="border-top-0"></div>
+        <p>Chat não habilitado para usuário logado</p>
+      </div>
+    </div>
+
+  </div>
+
+  <ng-template #modalVolViewer let-modal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header modalElinox">
+          <h4 class="modal-title" id="modal-basic-title">Itens no Volume</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <tr class="table-striped">
+                <th>Cód</th>
+                <th>Descrição</th>
+                <th>Peças</th>
+              </tr>
+              <tbody>
+                <tr *ngFor="let v of volviewer">
+                  <td>{{v.itemCode}}</td>
+                  <td>{{v.description}}</td>
+                  <td>{{v.pack}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="color: white"> Atualizando... </p>
+  </ngx-spinner>
+
+
+  <!--<ion-content class="bg bg-white p-0">
+  <ion-grid style="background-color: #39B4E2; color: #fff;" class="pt-3 p-0 pb-3">
+    <ion-row class="ps-2 pt-4 pe-0go mb-3">
+
+      <h5>
+
+        <i (click)="backPicking()" class="bi bi-arrow-left-circle ms-1 me-1 text-22"></i>
+         PICKING EM ANDAMENTO
+
+         <i (click)="reload()" class="bi bi-arrow-clockwise ms-3 text-22 float-end"></i>
+      </h5>
+
+    </ion-row>
+    <div class="row ps-2 pe-2 mt-3">
+      <div class="col-6 ps-3 mt-3">
+        <label class="mb-2 ps-3"> <i class="bi bi-list-ol me-2"></i> Produtos
+          <span class="badge bg-success"> {{pickingList.length}}</span>
+        </label>
+      </div>
+      <div class="col-6 mt-3">
+        <label class="mb-2" [routerLink]="'/volumes/id/' + pickingList[0]?.absEntry"> <i class="bi bi-box-seam-fill me-2" [routerDirection]="'root'"></i> Volumes
+          <span class="badge bg-info"> {{volumes.length}}</span>
+        </label>
+      </div>
+    </div>
+
+
+  </ion-grid>
+  <div class="row justify-content-center">
+    <div class="col-12 text-muted">
+     </div>
+   </div>
+  <div *ngFor="let item of pickingList; let i = index" class="card rounded-top p-0 m-0 ps-2 pt-3 pb-3 m-1" >
+    <div class="row">
+      <p class="text-muted mb-1 mt-0"  style="font-size: 14px !important;"> {{item.cardName}}
+        <span class="badge bg-success ms-2" *ngIf="item.pickStatusLine === 'I'">INCREMENTO</span>
+        <span class="badge bg-danger ms-2" *ngIf="item.pickStatusLine === 'Y'">SEPARADO</span>
+        <span class="badge bg-primary ms-2" *ngIf="item.pickStatusLine === 'N'">PENDENTE</span>     
+      </p>
+      <h6 class="pt-1 pe-4 text-10" [ngClass]="{'text-decoration-line-through text-muted': item.pickStatus === 'conferred'}" >
+        <span class="badge bg-secondary mt-1 me-0">{{item.itemCode}}</span> {{item.dscription}}
+       
+      </h6>
+    
+    </div>
+    <div class="alert alert-warning m-2 ms-0 p-1 mb-1 textfactor" role="alert" *ngIf="item.factor != 1">
+      <i class="bi bi-exclamation-triangle"></i> Atenção, item com fator unidade.
+    </div>
+    <div class="alert alert-primary p-2 m-2 mt-1 ms-0" role="alert">
+      <div class="row">
+        <div class="col-5">
+          <p class="mt-1 mb-1" style="font-size: 14px !important;"><strong>Qtde:</strong> {{item.quantity}} {{item.umv}}</p>
+        </div>
+        <div class="col-7 p-0">
+          <p class="mt-1 mb-1" style="font-size: 14px !important;"><strong>Vendedor:</strong> {{item.slpName}}</p>
+        </div>
+      </div>
+    </div>
+  </div>-->

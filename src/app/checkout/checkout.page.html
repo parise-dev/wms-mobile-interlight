@@ -1,0 +1,68 @@
+<div class="container p-0">
+  <ion-content class="m-0">
+    <ion-grid style="background-color: black; color: #fff;" class="py-2">
+      <ion-row class=" px-2 py-2 d-flex justify-content-between align-items-center">
+           <i class="bi bi-arrow-left-circle text-36" style="font-size: 24px;" (click)="backHome()"></i>
+        <h4 class="pt-2">
+          Conferência de Volumes
+        </h4>
+        <i (click)="reload()" class="bi bi-arrow-clockwise text-22" style="font-size: 24px;"></i>
+      </ion-row>
+      
+
+
+    </ion-grid>
+    <h6 class="m-3">Digite ou bipe o código do volume:
+      <a class="text-danger float-end" (click)="clear()">limpar</a>
+    </h6>
+    <div class="m-2 mb-4">
+      <div class="input-group m-2 mb-4 me-3">
+        <input type="text" class="form-control me-2" placeholder="Número do volume"   [(ngModel)]="volumeBip" aria-describedby="basic-addon2">
+        <div class="input-group-append me-2">
+          <button class="btn btn-outline-secondary" type="button" (click)="confirmeOk()">OK</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3 mb-3"></div>
+    <h6 class="m-2 mt-4 ms-3 mb-3">Disponíveis para conferir</h6>
+    <div class="alert alert-info mt-2 ms-2 me-2" role="alert" *ngIf="pack.length == 0">
+      Nenhum item para conferir
+    </div>
+    <div *ngFor="let p of pack; let i = index">
+
+      <div class="card ms-2 borderx ms-0 me-2" [routerLink]="'/checkout/' +  p.id" [routerDirection]="'root'">
+        <div class="row ms-1 me-2"> 
+          <h5 [ngClass]="{ 'bg bg-warning rounded': p?.perfil === 'Y', 'bg bg-secondary text-white rounded': p?.perfil != 'Y'  }" class="ms-1 mt-3 mb-0 me-2 pe-2 pt-3 pb-3"> <i *ngIf=" p?.perfil === 'Y'" class="bi bi-key"></i> {{formatVol(p.id)}}
+            <span class="bg bg-primary rounded text-8 float-end ms-0 ps-2 pt-1 pb-1">{{p.docnumber == 0? '-':
+              p.docnumber}}</span>
+          </h5> <!--{{ua.address}}-->
+        </div>
+           <div class="alert alert-warning p-2 mt-2 mb-2 fs-6 m-2 text-8" role="alert">
+         Tipo de Frete: <strong class="float-end">{{p.tipoFrete}}</strong>
+        </div>
+        <div class="row p-0 m-0 mt-1" style="font-size: 10px;">
+          <div class="col-4">
+            <p class="ms-2 me-0 mt-2 mb-1 text-8"><strong>Criado:</strong> {{p.createDate | date: 'dd/MM/yyyy'}}</p>
+          </div>
+          <div class="col-4">
+            <p class="ms-2 me-0 mt-2 mb-1 text-8"><strong>Embalagem:</strong> {{p.package_Name}}</p>
+          </div>
+          <div class="col-4">
+            <p class="ms-2 me-0 mt-2 mb-1 text-8"><strong>Por:</strong> {{p.username}}</p>
+          </div>
+        </div>
+
+        <div class="row ps-3 pe-3 pt-3 pb-2 mb-0">
+          <div class="alert alert-primary ps-2 pt-1 pb-1 pe-2 mb-0" role="alert">
+            <small class="ms-2" style="font-size: 10px;"><strong>Local do Volume:</strong> {{p.destiny}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ion-footer>
+    </ion-footer>
+    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="5000" cssClass="toast-custom-class"
+      (didDismiss)="setOpen(false)">
+    </ion-toast>
+  </ion-content>
+</div>

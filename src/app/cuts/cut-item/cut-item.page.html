@@ -1,0 +1,143 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="color: white"> Aguarde... </p>
+</ngx-spinner>
+<div class="container p-0">
+  <ion-content class="m-0">
+    <ion-grid style="background-color: black; color: #fff;" class="pt-3 p-0 pb-3">
+      <ion-row class=" ps-2 pt-4 pe-0 mb-3">
+
+        <h4>
+          <i class="bi bi-arrow-left-circle ms-2 me-2 text-36" style="font-size: 24px;" (click)="backHome()"></i>
+          DEMANDA DE CORTE
+        </h4>
+      </ion-row>
+      <div class="row ps-2 pe-2">
+        <div class="btn-group" role="group" aria-label="Basic example">
+        </div>
+      </div>
+
+
+    </ion-grid>
+    <div class="m-2 mb-4">
+      <div class="input-group m-2 mb-4 me-3">
+        <!-- (keydown)="onKeydown($event, barcodeInput)"-->
+        <input type="text" class="form-control me-2" #barcodeInput placeholder="Número do volume"
+          aria-label="Recipient's username" name="keyD" aria-describedby="basic-addon2">
+        <div class="input-group-append me-2">
+          <button class="btn btn-outline-secondary" type="button">OK</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3 mb-3"></div>
+    <h6 class="m-2 mt-4 ms-3 mb-3">Volumes pertencente ao pedido</h6>
+
+    <div *ngIf="cutsBase">
+      <div class="card borderx m-2 mb-4 p-2" *ngFor="let d of cutsBase; let i = index">
+        <div class="row">
+          <h5 class="ms-2 mt-3 mb-0 me-2 pe-2"><span
+              class="bg bg-success rounded text-white ps-2 pe-2 me-2">{{d.itemCode}}</span>{{d.description}}
+          </h5> <!--{{ua.address}}-->
+
+          <p class="text-muted m-3 mb-1" style="font-size: 14px;"><strong>Obs:</strong> {{d.freeTxt}}</p>
+         
+          <p class="text-muted m-3 mt-1" style="font-size: 14px;"><strong>Pedido:</strong>{{d.docNum}} <br>
+            <strong>User:</strong> {{d.usuario}}<br> <strong>Quantidade de Peças Inicial:</strong> {{d.pecas}}
+            <br><strong>Pós corte:</strong> {{d.pecasCut}}
+          </p>
+        </div>
+        <div class="row pe-2 ps-2 m-3">
+          <div class="alert alert-warning me-1 ms-1" role="alert" *ngIf="d.manutencao"
+            (click)="openModal(modalPrint, i, 'modalPrint')">
+            <i class="bi bi-exclamation-circle"></i>
+            PEÇA REAJUSTADA, FAVOR MONTAR VOLUME
+          </div>
+          <button class="btn btn-danger btn-sm text-white pt-2 pb-2" (click)="openModal(modalEditPECAM, i)">REAJUSTAR
+            PEÇAS NO VOLUME</button>
+        </div>
+      </div>
+    </div>
+    <ion-footer>
+    </ion-footer>
+    <div class="d-grid gap-2 p2" *ngIf="cutPecasProntas(cutsBase)">
+      <button class="btn btn-primary" (click)="addUrlNewPage()">CRIAR VOLUMES</button>
+
+    </div>
+  </ion-content>
+  <div>
+
+
+  </div>
+
+</div>
+<ng-template #modalEditPECAM let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">MANUTENÇÃO DE PEÇAS</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+      </div>
+      <div class="modal-body p-1">
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Confirme o novo número de peças: </strong></label>
+          <input class="form-control form-control-sm" type="number" [(ngModel)]="qtdeNewVolume" name="qtnv" />
+          <button class="btn btn-primary mt-2 mb-2" (click)="confirmedQtde()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #modalPrint let-modal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modalElinox">
+        <h4 class="modal-title" id="modal-basic-title">IMPRIMIR</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+      </div>
+      <div class="modal-body p-1">
+        <label class="mt-2 mb-2 ms-0"><strong>Volumes gerados: </strong></label>
+        <div class="alert alert-secondary" role="alert">
+          
+          <table class="table table-responsive"> 
+            <thead class="thead-light">
+              <tr>
+                <th>#</th>
+                <th>#VOLUME</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="volume">
+              <tr *ngFor="let pack of volume; let i = index">
+                  <td><input type="checkbox" class="form-check-input" [(ngModel)]="volume[i].check" [name]="i + '1'"></td>
+                <td><h5>{{pack.vols}}</h5></td>
+               
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row text-10 m-1 mb-2 mt-4 ms-0">
+          <label class="mt-2 mb-2 ms-0"><strong>Selecione a Impressora: </strong></label>
+          <select id="textAreaLocal" class="form-control form-control-sm" name="ipPrinters" [(ngModel)]="ipPrinters">
+             <option value="Selecione">Selecione uma impressora</option>
+            <option value="192.168.11.231">ELXETIQ-01</option>
+            <option value="192.168.11.232">ELXETIQ-02</option>
+            <option value="192.168.11.233">ELXETIQ-03</option>
+            <option value="192.168.11.234">ELXETIQ-04</option>
+            <option value="192.168.10.142">ELXETIQ-05</option>
+            <option value="192.168.11.235">ELXETIQ-06</option>
+            <option value="192.168.11.236">ELXETIQ-07</option>
+            <option value="192.168.10.145">ELXETIQ-08</option>
+            <option value="192.168.11.237">ELXETIQ-09</option>
+            <option value="192.168.11.240">ELXETIQ-10</option>
+            <option value="192.168.11.238">ELXETIQ-11</option>
+            <option value="192.168.11.239">ELXETIQ-12</option>
+            <option value="192.168.11.118">TI-HELDER</option>
+          </select>
+          <button class="btn btn-primary mt-2 mb-2" (click)="print()">IMPRIMIR ETIQUETA</button>
+          <button class="btn btn-danger mt-2 mb-2" (click)="cancelarVolume()">CANCELAR VOLUMES</button>
+          <button class="btn btn-warning mt-2 mb-2" (click)="concluirItem()">CONCLUIR ITEM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

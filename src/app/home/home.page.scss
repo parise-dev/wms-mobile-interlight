@@ -1,0 +1,253 @@
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
+}
+
+.bg-elinox{
+  background-color: black;
+  border-color: black;
+}
+
+/* Fonte moderna (opcional): adicione no index.html
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
+*/
+:root {
+  --elinox-header-text: #5f8aa3; /* cor do “Entrar” da imagem */
+  --elinox-subtle: rgba(255,255,255,.75);
+  --tile-bg: #ffffff;
+  --tile-hover: #f4f6f8;
+  --focus: rgba(95,138,163,.35);
+}
+
+.app-shell { background: rgba(244,244,244,.263); }
+
+/* Header - preservando bg-elinox; só tipografia */
+.header-title {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--elinox-header-text);
+}
+.header-subtitle {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: var(--elinox-subtle);
+  font-size: .95rem;
+}
+
+/* Botões do header */
+.btn.btn-ghost {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  padding: .25rem .4rem;
+  border-radius: .75rem;
+}
+.header-icon-btn:hover { background: rgba(255,255,255,.08); }
+.header-icon { font-size: 1.75rem; line-height: 1; }
+
+/* Aumenta os ícones em telas maiores */
+@media (min-width: 992px) {
+  .header-icon { font-size: 2.1rem; }
+}
+
+/* Badge opcional do sino */
+.notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #ff4757;
+}
+
+/* Área principal */
+.app-surface { background: rgba(238, 222, 222, 0.263); }
+
+/* GRID responsiva com espaçamento e cards de tamanhos iguais */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* Cards */
+.menu-card {
+  background: var(--tile-bg);
+  border-radius: 16px;
+  min-height: 140px;  /* garante altura uniforme */
+  display: flex;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .2s ease;
+}
+.menu-card:hover {
+  background: var(--tile-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.10);
+}
+.menu-card:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 .3rem var(--focus), 0 10px 30px rgba(0,0,0,.10);
+}
+
+/* Ícone do card */
+.menu-card-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: grid; place-items: center;
+  background: rgba(95,138,163,.15);
+  margin-bottom: .5rem;
+  border: 1px dashed #00ade2;
+
+  i { font-size: 1.6rem; color: #3e657a; }
+}
+@media (min-width: 1200px) {
+  .menu-card { min-height: 160px; }
+  .menu-card-icon i { font-size: 1.8rem; }
+}
+
+/* Texto do card */
+.menu-label {
+  font-weight: 600;
+  color: #1f2a36;
+  max-width: 100%;
+}
+
+/* Footer fixo centralizado */
+.elinox-footer {
+  background: #ffffff;
+  border-top: 1px solid #e6e9ee;
+  padding: .5rem 0;
+}
+
+/* =========================
+   MOBILE FIRST AJUSTES
+   ========================= */
+
+/* Evita que o footer fixo “coma” o conteúdo no mobile */
+.app-shell{
+  padding-bottom: 76px; /* ajuste fino se seu footer for maior/menor */
+}
+
+/* HEADER: melhor alinhamento no mobile */
+.bg-elinox .d-flex.justify-content-between.align-items-center{
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  gap: 12px;
+}
+
+/* Logo mais responsivo */
+.bg-elinox img[alt="Elinox"]{
+  height: 44px !important;
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+  max-width: 60vw;
+  object-fit: contain;
+}
+
+/* Área de ações (sino/perfil) mais “clicável” no mobile */
+.header-icon-btn{
+  padding: .45rem .55rem !important;
+  border-radius: .9rem;
+}
+.header-icon{
+  font-size: 1.55rem !important;
+}
+
+/* Bloco de títulos: menos “alto” e mais harmonioso no mobile */
+.bg-elinox.text-center.py-4.mt-4{
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  margin-top: 10px !important;
+}
+.header-title{
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+.header-subtitle{
+  font-size: .9rem !important;
+  line-height: 1.2;
+}
+
+/* =========================
+   GRID: 2 CARDS POR LINHA NO MOBILE
+   ========================= */
+
+/* Mobile (até 575.98px): 2 colunas fixas */
+@media (max-width: 575.98px){
+  .menu-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem;
+  }
+
+  .menu-card{
+    min-height: 128px;          /* um pouco menor p/ caber melhor */
+    border-radius: 14px;
+  }
+
+  .menu-card .card-body{
+    padding: .85rem !important;
+  }
+
+  .menu-card-icon{
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    margin-bottom: .4rem;
+  }
+
+  /* como seu CSS atual tem "i { ... }" aninhado (scss),
+     aqui vai a versão CSS padrão que funciona sempre */
+  .menu-card-icon i{
+    font-size: 1.35rem;
+    color: #3e657a;
+  }
+
+  .menu-label{
+    font-size: .92rem;
+    line-height: 1.15;
+    white-space: normal;         /* deixa quebrar linha no mobile */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;       /* no máx 2 linhas */
+    -webkit-box-orient: vertical;
+  }
+}
+
+/* Tablets pequenos (576px+): continua 2 por linha, mas mais folga */
+@media (min-width: 576px) and (max-width: 767.98px){
+  .menu-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* A partir de md, volta a auto-fill como você já tinha */
+@media (min-width: 768px){
+  .menu-grid{
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+/* =========================
+   PEQUENOS AJUSTES VISUAIS
+   ========================= */
+
+/* Melhor contraste/consistência do texto no header sem mudar fundo */
+.header-title{
+  color: #ffffff; /* no seu layout atual, header é azul: título branco fica mais legível */
+  text-shadow: 0 1px 0 rgba(0,0,0,.08);
+}
+
+/* Subtítulo um pouco mais legível */
+.header-subtitle{
+  color: rgba(255,255,255,.85);
+}
+
+/* Se quiser manter o “tom” do seu var(--elinox-header-text) em telas maiores */
+@media (min-width: 992px){
+  .header-title{
+    color: var(--elinox-header-text);
+    text-shadow: none;
+  }
+}
+.app-surface{
+  padding-bottom: 96px; /* ajuste fino se quiser mais/menos espaço */
+}

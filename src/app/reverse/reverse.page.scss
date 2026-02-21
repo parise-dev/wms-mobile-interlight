@@ -1,0 +1,120 @@
+.bg-primary{
+  color: white;
+  font-size: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5%;
+}
+
+.text-8{ font-size: 10px; }
+.text-10{ font-size: 12px; }
+
+/* Cor do tema preservada */
+:root { --elinox-primary: black; }
+
+/* ✅ NOVO: página com altura de tela + layout em coluna */
+.reversa-page{
+  height: 100vh;           /* ocupa a tela inteira */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;        /* impede scroll no body da página */
+}
+
+/* ✅ NOVO: área rolável (lista) */
+.reversa-body{
+  flex: 1 1 auto;          /* pega o espaço restante */
+  min-height: 0;           /* CRÍTICO para overflow funcionar no flex */
+  overflow-y: auto;        /* scroll vertical aqui */
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 12px;    /* respiro final */
+}
+
+/* Header permanece fixo */
+.reversa-header {
+  background-color: black;
+  color: #fff;
+  padding: 1.25rem 1rem;
+}
+.reversa-header .bi-arrow-left-circle { font-size: 1.5rem; }
+.reversa-header h3 { letter-spacing: .2px; }
+.reversa-header .header-back { font-weight: 600; }
+
+.reversa-container {
+  padding: 1rem;
+}
+
+/* CARD */
+.reversa-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  background: #fff;
+  transition: transform .18s ease, box-shadow .18s ease;
+  overflow: hidden;
+}
+.reversa-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 6px;
+  background: linear-gradient(180deg, var(--elinox-primary) 0%, rgba(57,180,226,.65) 100%);
+}
+.reversa-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,0,0,.10);
+}
+.reversa-card:active { transform: translateY(0); }
+
+.reversa-card .reversa-card__inner {
+  padding: 1rem 1.25rem 1.1rem 1.25rem;
+}
+.reversa-card .reversa-card__icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  background: #FED7AA;
+}
+.reversa-card .reversa-card__icon i { font-size: 1.35rem; color: #F97316; }
+
+.reversa-card h5 { font-size: 1.075rem; }
+
+.reversa-card .chevron {
+  font-size: 1.1rem; color: #9aa8b4;
+  transition: transform .18s ease;
+}
+.reversa-card:hover .chevron { transform: translateX(2px); }
+
+.reversa-card .badge-tag {
+  display: inline-flex; align-items: center;
+  gap: .25rem;
+  padding: .2rem .5rem;
+  border-radius: 999px;
+  background: #f1f6f9;
+  color: #4b5b6a;
+  font-weight: 600;
+}
+.reversa-card .line {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,0,0,0) 0%, #e9eef2 30%, #e9eef2 70%, rgba(0,0,0,0) 100%);
+}
+
+/* Grid consistente em alturas (cards iguais) */
+@supports (height: 100%) {
+  .row > .col { display: flex; }
+  .reversa-card { height: 100%; }
+}
+
+/* Responsivo */
+@media (min-width: 992px) {
+  .reversa-header { padding: 1.5rem 1.25rem; }
+  .reversa-header h3 { font-size: 1.6rem; }
+  .reversa-card .reversa-card__icon i { font-size: 1.5rem; }
+  .reversa-card h5 { font-size: 1.15rem; }
+}
+
+@media (prefers-contrast: more) {
+  .reversa-card { box-shadow: 0 0 0 1px #d9e1e8; }
+}
